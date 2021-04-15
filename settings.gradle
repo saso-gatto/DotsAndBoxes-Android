@@ -1,2 +1,3 @@
+include ':embasp-release'
 include ':app'
 rootProject.name = "DotsAndBoxes"
