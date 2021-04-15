@@ -1,22 +1,27 @@
 package it.dotsandboxes;
 
+import android.content.Intent;
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import android.view.View;
 
 public class Activity_Start extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity__start);
-
-
+        setContentView(R.layout.activity_start);
+        Button btnStart = (Button) findViewById(R.id.btnStart);
+        btnStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Activity_Start.this,Activity_Game.class);
+                startActivity(intent);
+            }
+        });
     }
+
+
 }
