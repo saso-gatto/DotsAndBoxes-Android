@@ -4,6 +4,9 @@ import android.graphics.Point;
 
 import java.util.ArrayList;
 
+import it.dotsandboxes.classiEmbasp.Edge;
+import it.dotsandboxes.classiEmbasp.NoEdge;
+
 public class Board implements Cloneable {
 
     final static int RED = 0;
@@ -112,7 +115,7 @@ public class Board implements Cloneable {
     
     
 
-    public ArrayList<NoEdge> getMosseDisponibili() {	
+    public ArrayList<NoEdge> getMosseDisponibili() {
         ArrayList<NoEdge> mosse = new ArrayList<NoEdge>();
         for(int i=0; i<=dim; i++)
             for(int j=0; j<dim; j++)

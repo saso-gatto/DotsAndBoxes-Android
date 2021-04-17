@@ -1,13 +1,17 @@
 package it.dotsandboxes;
 
 
+import android.graphics.Paint;
 import android.view.View;
 
 import java.util.Observable;
 import java.util.Observer;
 
+import it.dotsandboxes.classiEmbasp.Edge;
+
 public class GamePlay extends View implements Observer {
-	
+
+
     private final static int size = 8;	//Spessore linee
     private final static int dist = 50;	//Lunghezza di Edge
 
@@ -16,7 +20,8 @@ public class GamePlay extends View implements Observer {
     private int turn;
     private boolean mouseEnabled;
     private ASPSolver blueSolver,redSolver;
-   
+
+    private Paint paint;
     
     String redName, blueName;
 
@@ -324,4 +329,6 @@ public class GamePlay extends View implements Observer {
     public void update(Observable o, Object arg) {
 
     }
+
+
 }
