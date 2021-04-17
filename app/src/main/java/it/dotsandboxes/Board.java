@@ -13,13 +13,14 @@ public class Board implements Cloneable {
     final static int BLUE = 1;
     final static int BLACK = 2;
     final static int BLANK = 3;
+    private int TURN;
 
     private int[][] vEdge;					//Griglia linee orizzontali
     private int[][] hEdge;					//Griglia delle linee verticali 
     private int[][] box;					//Griglia del gioco		
     
 	private int dim, redScore, blueScore;		//n=numero righe e colonna.
-	
+	private Edge latestMove;
 	private ArrayList<Edge> mosseFatte = new ArrayList<Edge>();
 	
     public Board(int n) {
@@ -39,8 +40,13 @@ public class Board implements Cloneable {
     
     public void addUltimaMossa(Edge e) {
     	this.mosseFatte.add(e);
+    	this.latestMove= e;
     }
-    
+
+    public Edge getLatestMove() {
+        return latestMove;
+    }
+
     public ArrayList <Edge> getMosseFatte() {
     	return this.mosseFatte;
     }
@@ -220,4 +226,35 @@ public class Board implements Cloneable {
         return cont;
     }
 
+    public boolean isEdgeOccupied(int row, int column, int dir) {
+        return isEdgeOccupied(new Edge(row, column, dir));
+    }
+
+    //Perché 1 e 2? Da modificare
+    public boolean isEdgeOccupied(Edge edge) {
+        if (edge.getHorizontal()==1){
+
+                return (hEdge[edge.getX()][edge.getY()] == 1
+                        || hEdge[edge.getX()][edge.getY()] == 2);
+        }
+            else if (edge.getHorizontal()==0){
+                return (vEdge[edge.getX()][edge.getY()] == 1
+                        || vEdge[edge.getX()][edge.getY()] == 2);
+        }
+            System.out.println("Caso non contemplato");
+            return false;
+    }
+
+    public int getLineOccupier(Edge line) {
+        if (line.getHorizontal()==1)
+            return hEdge[line.getX()][line.getY()];
+         else
+                return vEdge[line.getX()][line.getY()];
+
+
+    }
+
+    public int getBoxOccupier(int row, int column) {
+        return box[row][column];
+    }
 }

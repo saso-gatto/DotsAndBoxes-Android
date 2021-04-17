@@ -1,9 +1,20 @@
 package it.dotsandboxes;
 
 
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.GridLayout;
 
+import com.google.android.material.internal.FlowLayout;
+
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -14,110 +25,98 @@ public class GamePlay extends View implements Observer {
 
     private final static int size = 8;	//Spessore linee
     private final static int dist = 50;	//Lunghezza di Edge
+    //Dati utili per distanziare le line e i cerchi per il draw della matrice
+    protected static final float radius = (float) 14 / 824;
+    protected static final float start = (float) 6 / 824;
+    protected static final float add1 = (float) 18 / 824;
+    protected static final float add2 = (float) 2 / 824;
+    protected static final float add3 = (float) 14 / 824;
+    protected static final float add4 = (float) 141 / 824;
+    protected static final float add5 = (float) 159 / 824;
+    protected static final float add6 = (float) 9 / 824;
+
+    protected Paint paint;
 
     private int dim;
-    private Board board;
+    private Board game;
     private int turn;
-    private boolean mouseEnabled;
     private ASPSolver blueSolver,redSolver;
-
-    private Paint paint;
-    
+    protected final int[] playerColors;
     String redName, blueName;
 
-    private JLabel[][] vEdge, hEdge, box;
-
-    private JFrame frame;
-    private JLabel redScoreLabel, blueScoreLabel, statusLabel;
-
-   
-    
-    private MouseListener mouseListener = new MouseListener() {
-    	
-    	//Il metodo click
-        @Override
-        public void mouseClicked(MouseEvent mouseEvent) {
-            if(!mouseEnabled) 
-            	return;
-            processMove(getSource(mouseEvent.getSource()));
-        }
-    };
-
-    private void processMove(Edge location) {
-        int x=location.getX(), y=location.getY();
-
-        if (this.mouseEnabled) {
-       // 	System.out.println("Mouse enabled: "+location.getX()+","+location.getY()+","+location.getHorizontal());
-        	this.board.addUltimaMossa(location);
-        }
-        	
-        ArrayList<Point> quadrati;
-
-        if(location.getHorizontal()==1) {
-        	if (hEdge[x][y].getBackground()==Color.BLACK)
-        		return;
-            quadrati = board.setHEdge(x,y,turn); //Otteniamo il quadrato/i che abbiamo aggiungendo l'hedge in X,Y
-            this.hEdge[x][y].setBackground(Color.BLACK);
-        }
-        else {
-        	if (vEdge[x][y].getBackground()==Color.BLACK)
-        		return;
-        	quadrati = board.setVEdge(x,y,turn);
-            this.vEdge[x][y].setBackground(Color.BLACK);
-        }
-
-        for(Point p : quadrati) {
-            box[p.x][p.y].setBackground((turn == Board.RED) ? arancione : azzurro);
+    public GamePlay(Context context, AttributeSet attributeSet) {
+        super(context, attributeSet);
+        paint = new Paint();
+        this.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                receiveInput(event);
+                return false;
             }
-
-        redScoreLabel.setText(String.valueOf(board.getRedScore()));
-        blueScoreLabel.setText(String.valueOf(board.getBlueScore()));
-
-        if(board.isComplete()) {
-            int winner = board.getWinner();
-            if(winner == Board.RED) {
-                statusLabel.setText("Il Giocatore 1 ha vinto!");
-                statusLabel.setForeground(arancione);
-            }
-            else if(winner == Board.BLUE) {
-                statusLabel.setText("Il Giocatore 2 ha vinto!");
-                statusLabel.setForeground(azzurro);
-            }
-            else {
-                statusLabel.setText("Pareggio!");
-                statusLabel.setForeground(Color.BLACK);
-            }
-        }
-
-        if(quadrati.isEmpty()) {
-            if(turn == Board.RED) {
-                turn = Board.BLUE;
-                statusLabel.setText("Turno del Giocatore 2");
-                statusLabel.setForeground(azzurro);
-            }
-            else {
-                turn = Board.RED;
-                statusLabel.setText("Turno del Giocatore 1");
-                statusLabel.setForeground(arancione);
-            }
-        }
-        
-        	
-
+        });
+        playerColors = new int[]{getResources().getColor(R.color.arancione),
+                getResources().getColor(R.color.azzurro)};
     }
 
+
+
+    //Equivale al metodo processMove di JAVA, sono analoghi
+    private void receiveInput(MotionEvent event) {
+        if (event.getAction() != MotionEvent.ACTION_DOWN)
+            return;
+
+        float touchX = event.getX();
+        float touchY = event.getY();
+        int min = Math.min(getWidth(), getHeight());
+        float start = GamePlay.start * min;
+        float add1 = GamePlay.add1 * min;
+        float add2 = GamePlay.add2 * min;
+        float add3 = GamePlay.add3 * min;
+        float add5 = GamePlay.add5 * min;
+        int d = -1, a = -1, b = -1;
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 5; j++) {
+                if ((start + add5 * j + add1 - add3) <= touchX
+                        && touchX <= (start + add5 * (j + 1) + add3)
+                        && touchY >= start + add5 * i + add2 - add3
+                        && touchY <= start + add5 * i + add1 - add2 + add3) {
+                    d = 0;
+                    a = i;
+                    b = j;
+                }
+                if (start + add5 * i + add2 - add3 <= touchX
+                        && touchX <= start + add5 * i + add1 - add2 + add3
+                        && touchY >= start + add5 * j + add1 - add3
+                        && touchY <= start + add5 * (j + 1) + add3) {
+                    d = 1;
+                    a = j;
+                    b = i;
+                }
+            }
+        }
+        //a!=-1 e b!=-1?
+        if ((a != -1) && (b != -1)) {
+            int direction = d;
+            Edge move = new Edge(a, b, direction);
+            try {
+                if (direction==0)
+                    game.setVEdge(move.getX(),move.getY(),turn);
+                else if (direction==1)
+                    game.setHEdge(move.getX(),move.getY(),turn);
+            } catch (Exception e) {
+                Log.e("GameView", e.toString());
+            }
+        }
+    }
+    //DA RIVEDERE DOPO L'AGGIUNTA DI EMBASP
     private void manageGame() {
-        while(!board.isComplete()) {
-            if((turn==Board.BLUE && this.blueSolver == null) || (turn==Board.RED && this.redSolver==null)) {
-                mouseEnabled = true;
-            }
-            else {
-                mouseEnabled = false;
-                if (turn==Board.BLUE)
-                	processMove(this.blueSolver.getNextMove(board, turn));
+        while(!game.isComplete()) {
+
+                if (turn==Board.BLUE )
+                	turn = Board.RED;
                 else if (turn==Board.RED)
-                	processMove(this.redSolver.getNextMove(board, turn));
-            }
+                	turn =Board.BLUE;
+
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
@@ -126,7 +125,7 @@ public class GamePlay extends View implements Observer {
         }
     }
 
-    //Object conterr� le coordinate dell'edge da aggiungere
+ /*   //Object conterr� le coordinate dell'edge da aggiungere
     private Edge getSource(Object object) {
     	Edge mossa;
         for(int i=0; i<dim; i++)
@@ -143,192 +142,93 @@ public class GamePlay extends View implements Observer {
                 }
         System.out.println("non ho trovato un oggetto - PROBLEMA");
         return new Edge();
-    }
+    } */
 
-    private JLabel getHorizontalEdge() {
-        JLabel label = new JLabel();
-        label.setPreferredSize(new Dimension(dist, size));
-        label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        label.setOpaque(true);
-        label.addMouseListener(mouseListener);
-        return label;
-    }
 
-    private JLabel getVerticalEdge() {
-        JLabel label = new JLabel();
-        label.setPreferredSize(new Dimension(size, dist));
-        label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        label.setOpaque(true);
-        label.addMouseListener(mouseListener);
-        return label;
-    }
 
-    private JLabel getDot() {
-        JLabel label = new JLabel();
-        label.setPreferredSize(new Dimension(size, size));
-        label.setBackground(Color.BLACK);
-        label.setOpaque(true);
-        return label;
-    }
 
-    private JLabel getBox() {
-        JLabel label = new JLabel();
-        label.setPreferredSize(new Dimension(dist, dist));
-        label.setOpaque(true);
-        return label;
-    }
-
-    private JLabel getEmptyLabel(Dimension d) {
-        JLabel label = new JLabel();
-        label.setPreferredSize(d);
-        return label;
-    }
-
-    public GamePlay(Main parent, ASPSolver blueSolver, ASPSolver redSolver, 
-    		JFrame frame, int n,  String redName, String blueName) {
-        this.parent = parent;
-        this.frame = frame;
-        this.dim = n;
-
-        this.redName = redName;
-        this.blueName = blueName;
-        
-        this.blueSolver= blueSolver;
-        this.redSolver=redSolver;
-        initGame();
-    }
 
     private boolean goBack;
 
-    private ActionListener closeListener = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent actionEvent) {
-        	System.exit(0);
-        }
-    };
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
 
-    private void initGame() {
+        canvas.drawColor(0x00FFFFFF);
+        int min = Math.min(getWidth(), getHeight());
+        float radius = GamePlay.radius * min;
+        float start = GamePlay.start * min;
+        float add1 = GamePlay.add1 * min;
+        float add2 = GamePlay.add2 * min;
+        float add4 = GamePlay.add4 * min;
+        float add5 = GamePlay.add5 * min;
+        float add6 = GamePlay.add6 * min;
 
-        board = new Board(this.dim);
-        int boardWidth = dim * size + (dim-1) * dist;
-        turn = Board.RED;
-
-
-        JPanel grid = new JPanel(new GridBagLayout());
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.gridx = 0;
-        constraints.gridy = 0;
-        grid.add(getEmptyLabel(new Dimension(2 * boardWidth, 10)), constraints);
-        
-        JPanel playerPanel = new JPanel(new GridLayout(2, 2));
-        if(dim>3) 
-        	playerPanel.setPreferredSize(new Dimension(2 * boardWidth, dist));
-        else 
-        	playerPanel.setPreferredSize(new Dimension(2 * boardWidth, 2 * dist));
-        
-        playerPanel.add(new JLabel("<html><font color='orange'>Giocatore 1:", SwingConstants.CENTER));
-        playerPanel.add(new JLabel("<html><font color='#02a3d0'>Giocatore 2:", SwingConstants.CENTER));
-        playerPanel.add(new JLabel("<html><font color='orange'>" + redName, SwingConstants.CENTER));
-        playerPanel.add(new JLabel("<html><font color='#02a3d0'>" + blueName, SwingConstants.CENTER));
-        ++constraints.gridy;
-        grid.add(playerPanel, constraints);
-
-        ++constraints.gridy;
-        grid.add(getEmptyLabel(new Dimension(2 * boardWidth, 10)), constraints);
-
-        JPanel scorePanel = new JPanel(new GridLayout(2, 2));
-        scorePanel.setPreferredSize(new Dimension(2 * boardWidth, dist));
-        scorePanel.add(new JLabel("<html><font color='orange'>Punteggio:", SwingConstants.CENTER));
-        scorePanel.add(new JLabel("<html><font color='#02a3d0'>Punteggio:", SwingConstants.CENTER));
-        
-        redScoreLabel = new JLabel("0", SwingConstants.CENTER);
-        redScoreLabel.setForeground(arancione);
-        
-        scorePanel.add(redScoreLabel);
-        
-        blueScoreLabel = new JLabel("0", SwingConstants.CENTER);
-        blueScoreLabel.setForeground(azzurro);
-        scorePanel.add(blueScoreLabel);
-        ++constraints.gridy;
-        grid.add(scorePanel, constraints);
-
-        ++constraints.gridy;
-        grid.add(getEmptyLabel(new Dimension(2 * boardWidth, 10)), constraints);
-
-        this.vEdge = new JLabel[dim-1][dim];
-
-        this.hEdge = new JLabel[dim][dim-1];
-
-        
-        box = new JLabel[dim-1][dim-1];
-        for(int i=0; i<(2*dim-1); i++) {
-            JPanel pane = new JPanel(new FlowLayout(FlowLayout.CENTER,0,0));
-            if(i%2==0) {
-                pane.add(getDot());
-                for(int j=0; j<(dim-1); j++) {
-                    hEdge[i/2][j] = getHorizontalEdge();
-                    pane.add(hEdge[i/2][j]);
-                    pane.add(getDot());
+        //paint lines
+        paint.setColor(0xFF000000);
+        for (int i = 0; i < game.getDim() + 1; i++) {
+            for (int j = 0; j < game.getDim(); j++) {
+                Edge horizontal = new Edge(i, j,1);
+                if (horizontal.equals(game.getLatestMove())) {
+                    paint.setColor(0xFFFF7700);
+                } else if (game.isEdgeOccupied(horizontal)) {
+                    if (game.getLineOccupier(horizontal) == 1)
+                        paint.setColor(playerColors[0]);
+                    else
+                        paint.setColor(playerColors[1]);
+                } else {
+                    paint.setColor(0xFFFFFFFF);
                 }
-            }
-            else {
-                for(int j=0; j<dim-1; j++) {
-                    vEdge[i/2][j] = getVerticalEdge();
-                    pane.add(vEdge[i/2][j]);
-                    box[i/2][j] = getBox();
-                    pane.add(box[i/2][j]);
+                canvas.drawRect(start + add5 * j + add1, start + add5 * i
+                        + add2, start + add5 * (j + 1), start + add5 * i + add1
+                        - add2, paint);
+
+                Edge vertical = new Edge(i, j,0);
+                if (vertical.equals(game.getLatestMove())) {
+                    paint.setColor(0xFFFF7700);
+                } else if (game.isEdgeOccupied(vertical)) {
+                    if (game.getLineOccupier(vertical) == 1)
+                        paint.setColor(playerColors[0]);
+                    else
+                        paint.setColor(playerColors[1]);
+                } else {
+                    paint.setColor(0xFFFFFFFF);
                 }
-                vEdge[i/2][dim-1] = getVerticalEdge();
-                pane.add(vEdge[i/2][dim-1]);
-            }
-            ++constraints.gridy;
-            grid.add(pane, constraints);
-        }
-
-        ++constraints.gridy;
-        grid.add(getEmptyLabel(new Dimension(2 * boardWidth, 10)), constraints);
-
-        statusLabel = new JLabel("Turno del Giocatore 1", SwingConstants.CENTER);
-        statusLabel.setForeground(arancione);
-        statusLabel.setPreferredSize(new Dimension(2 * boardWidth, dist));
-        ++constraints.gridy;
-        grid.add(statusLabel, constraints);
-
-        ++constraints.gridy;
-        grid.add(getEmptyLabel(new Dimension(2 * boardWidth, 10)), constraints);
-
-        JButton closeButton = new JButton("Termina la partita");
-        closeButton.setPreferredSize(new Dimension(boardWidth, dist));
-        closeButton.addActionListener(closeListener);
-        ++constraints.gridy;
-        grid.add(closeButton, constraints);
-
-        frame.getContentPane().removeAll();
-        frame.revalidate();
-        frame.repaint();
-
-        frame.setContentPane(grid);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-
-        goBack = false;
-        manageGame();
-
-        while(!goBack) {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                canvas.drawRect(start + add5 * i + add2, start + add5 * j
+                        + add1, start + add5 * i + add1 - add2, start + add5
+                        * (j + 1), paint);
             }
         }
-        parent.initGUI();
+
+        //paint boxes
+        for (int i = 0; i < game.getDim(); i++) {
+            for (int j = 0; j < game.getDim(); j++) {
+              //  paint.setColor(game.getBoxOccupier(j, i) == null ? Color.TRANSPARENT : playerColors[Player.indexIn(game.getBoxOccupier(j, i), game.getPlayers())]);
+                paint.setColor(Color.BLACK);
+                canvas.drawRect(start + add5 * i + add1 + add2, start
+                        + add5 * j + add1 + add2, start + add5 * i + add1
+                        + add4 - add2, start + add5 * j + add1 + add4
+                        - add2, paint);
+            }
+        }
+
+        //paint points
+        paint.setColor(getResources().getColor(R.color.arancione));
+        for (int i = 0; i < game.getDim() + 1; i++) {
+            for (int j = 0; j < game.getDim() + 1; j++) {
+                canvas.drawCircle(start + add6 + j * add5 + 1, start + add6 + i * add5 + 1,
+                        radius, paint);
+            }
+        }
+
+        invalidate();
     }
 
+
     @Override
+
     public void update(Observable o, Object arg) {
 
     }
-
 
 }
