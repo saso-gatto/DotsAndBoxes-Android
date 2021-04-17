@@ -167,10 +167,10 @@ public class GamePlay extends View implements Observer {
 
         //paint lines
         paint.setColor(0xFF000000);
-        for (int i = 0; i < game.getDim() + 1; i++) {
+        for (int i = 0; i < game.getDim()+1; i++) {
             for (int j = 0; j < game.getDim(); j++) {
-                Edge horizontal = new Edge(i, j,1);
-                if (horizontal.equals(game.getLatestMove())) {
+                Edge horizontal = new Edge(j, i,1);
+       /*         if (horizontal.equals(game.getLatestMove())) {
                     paint.setColor(0xFFFF7700);
                 } else if (game.isEdgeOccupied(horizontal)) {
                     if (game.getLineOccupier(horizontal) == 1)
@@ -179,19 +179,25 @@ public class GamePlay extends View implements Observer {
                         paint.setColor(playerColors[1]);
                 } else {
                     paint.setColor(0xFFFFFFFF);
-                }
+                 }
+*/
+                paint.setColor(Color.GREEN);
+
                 canvas.drawRect(start + add5 * j + add1, start + add5 * i
                         + add2, start + add5 * (j + 1), start + add5 * i + add1
                         - add2, paint);
 
-                Edge vertical = new Edge(i, j,0);
+                Edge vertical = new Edge(j, i,0);
+
                 if (vertical.equals(game.getLatestMove())) {
                     paint.setColor(0xFFFF7700);
                 } else if (game.isEdgeOccupied(vertical)) {
-                    if (game.getLineOccupier(vertical) == 1)
-                        paint.setColor(playerColors[0]);
-                    else
-                        paint.setColor(playerColors[1]);
+
+                        if (game.getLineOccupier(vertical) == 1)
+                            paint.setColor(playerColors[0]);
+                        else
+                            paint.setColor(playerColors[1]);
+
                 } else {
                     paint.setColor(0xFFFFFFFF);
                 }
@@ -205,7 +211,7 @@ public class GamePlay extends View implements Observer {
         for (int i = 0; i < game.getDim(); i++) {
             for (int j = 0; j < game.getDim(); j++) {
               //  paint.setColor(game.getBoxOccupier(j, i) == null ? Color.TRANSPARENT : playerColors[Player.indexIn(game.getBoxOccupier(j, i), game.getPlayers())]);
-                paint.setColor(Color.BLACK);
+                paint.setColor(Color.LTGRAY);
                 canvas.drawRect(start + add5 * i + add1 + add2, start
                         + add5 * j + add1 + add2, start + add5 * i + add1
                         + add4 - add2, start + add5 * j + add1 + add4

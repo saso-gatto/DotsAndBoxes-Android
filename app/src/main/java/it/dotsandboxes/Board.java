@@ -24,13 +24,13 @@ public class Board implements Cloneable {
 	private ArrayList<Edge> mosseFatte = new ArrayList<Edge>();
 	
     public Board(int n) {
-        vEdge = new int[n-1][n];			
-        hEdge = new int[n][n-1];
-        box = new int[n-1][n-1];	
+        vEdge = new int[n][n+1];
+        hEdge = new int[n+1][n];
+        box = new int[n][n];
         fill(vEdge,BLANK);					//Indica che tutte le linee orizz. sono vuote
         fill(hEdge,BLANK);					//Indica che tutte le linee verticali sono vuote
         fill(box,BLANK);					//griglia vuota
-        this.dim = n-1;
+        this.dim = n;
         redScore = blueScore = 0;
     }
     
@@ -232,15 +232,20 @@ public class Board implements Cloneable {
 
     //Perché 1 e 2? Da modificare
     public boolean isEdgeOccupied(Edge edge) {
-      /*  if (edge.getHorizontal()==1){
+        if (edge.getHorizontal()==1){
 
-                return (hEdge[edge.getX()][edge.getY()] == 1
-                        || hEdge[edge.getX()][edge.getY()] == 2);
+            if(hEdge[edge.getX()][edge.getY()] == BLANK)
+                return true;
+            else
+                return false;
         }
-            else if (edge.getHorizontal()==0){
-                return (vEdge[edge.getX()][edge.getY()] == 1
-                        || vEdge[edge.getX()][edge.getY()] == 2);
-        }*/
+        else if (edge.getHorizontal()==0){
+
+            if(vEdge[edge.getX()][edge.getY()] == BLANK)
+                return true;
+            else
+                return false;
+        }
             System.out.println("Caso non contemplato");
             return false;
     }
