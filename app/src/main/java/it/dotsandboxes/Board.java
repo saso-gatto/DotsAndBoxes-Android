@@ -232,7 +232,7 @@ public class Board implements Cloneable {
 
     //Perché 1 e 2? Da modificare
     public boolean isEdgeOccupied(Edge edge) {
-        if (edge.getHorizontal()==1){
+      /*  if (edge.getHorizontal()==1){
 
                 return (hEdge[edge.getX()][edge.getY()] == 1
                         || hEdge[edge.getX()][edge.getY()] == 2);
@@ -240,7 +240,7 @@ public class Board implements Cloneable {
             else if (edge.getHorizontal()==0){
                 return (vEdge[edge.getX()][edge.getY()] == 1
                         || vEdge[edge.getX()][edge.getY()] == 2);
-        }
+        }*/
             System.out.println("Caso non contemplato");
             return false;
     }

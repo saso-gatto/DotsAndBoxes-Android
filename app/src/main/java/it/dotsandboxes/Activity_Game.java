@@ -2,6 +2,7 @@ package it.dotsandboxes;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -20,11 +21,16 @@ public class Activity_Game extends AppCompatActivity {
     protected static final float add5 = (float) 159 / 824;
     protected static final float add6 = (float) 9 / 824;
     private  GamePlay gamePlay;
+    private ImageView disegno;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        gamePlay = (GamePlay) findViewById(R.id.gameView);
+
+        gamePlay = findViewById(R.id.gameView);
+        disegno = findViewById(R.id.immagine);
+
 
     }
 }

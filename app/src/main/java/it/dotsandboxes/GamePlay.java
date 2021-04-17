@@ -47,6 +47,7 @@ public class GamePlay extends View implements Observer {
     public GamePlay(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
         paint = new Paint();
+        game= new Board(5);
         this.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
