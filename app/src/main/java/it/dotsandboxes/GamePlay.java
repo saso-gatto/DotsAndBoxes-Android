@@ -12,6 +12,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.GridLayout;
 
+import androidx.core.content.ContextCompat;
+
 import com.google.android.material.internal.FlowLayout;
 
 import java.util.ArrayList;
@@ -20,7 +22,7 @@ import java.util.Observer;
 
 import it.dotsandboxes.classiEmbasp.Edge;
 
-public class GamePlay extends View implements Observer {
+public class GamePlay extends View {
 
 
     private final static int size = 8;	//Spessore linee
@@ -99,6 +101,7 @@ public class GamePlay extends View implements Observer {
         if ((a != -1) && (b != -1)) {
             int direction = d;
             Edge move = new Edge(b, a, direction);
+
             System.out.println("("+move.getX()+", "+move.getY()+", "+move.getHorizontal()+")");
             try {
                 if (direction==0)
@@ -109,54 +112,37 @@ public class GamePlay extends View implements Observer {
                 Log.e("GameView", e.toString());
             }
         }
+        manageGame();
     }
     //DA RIVEDERE DOPO L'AGGIUNTA DI EMBASP
     private void manageGame() {
+
+        System.out.println("Board: turn "+turn);
+
+        if (turn==Board.BLUE )
+            turn = Board.RED;
+        else if (turn==Board.RED)
+            turn =Board.BLUE;
+        /*
         while(!game.isComplete()) {
 
-                if (turn==Board.BLUE )
-                	turn = Board.RED;
-                else if (turn==Board.RED)
-                	turn =Board.BLUE;
+
 
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
     }
 
- /*   //Object conterr� le coordinate dell'edge da aggiungere
-    private Edge getSource(Object object) {
-    	Edge mossa;
-        for(int i=0; i<dim; i++)
-            for(int j=0; j<dim-1; j++)
-                if(hEdge[i][j] == object) {
-                	mossa = new Edge(i,j,1);
-                    return mossa;
-                }
-        for(int i=0; i<dim-1; i++)
-            for(int j=0; j<dim; j++)
-                if(vEdge[i][j] == object){
-                	mossa = new Edge(i,j,0);
-                    return mossa;
-                }
-        System.out.println("non ho trovato un oggetto - PROBLEMA");
-        return new Edge();
-    } */
 
-
-
-
-
-    private boolean goBack;
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        canvas.drawColor(0x00FFFFFF);
+        canvas.drawColor(0x00FFFFFF); // sfondo bianco
         int min = Math.min(getWidth(), getHeight());
         float radius = GamePlay.radius * min;
         float start = GamePlay.start * min;
@@ -165,6 +151,7 @@ public class GamePlay extends View implements Observer {
         float add4 = GamePlay.add4 * min;
         float add5 = GamePlay.add5 * min;
         float add6 = GamePlay.add6 * min;
+
 
         //paint lines
         paint.setColor(0xFF000000);
@@ -205,7 +192,7 @@ public class GamePlay extends View implements Observer {
                 } else {
                     paint.setColor(0xFFFFFFFF);
                 }
-/*      */          canvas.drawRect(start + add5 * i + add2, start + add5 * j
+              canvas.drawRect(start + add5 * i + add2, start + add5 * j
                         + add1, start + add5 * i + add1 - add2, start + add5
                         * (j + 1), paint);
             }
@@ -214,8 +201,9 @@ public class GamePlay extends View implements Observer {
         //paint boxes
         for (int i = 0; i < game.getDim(); i++) {
             for (int j = 0; j < game.getDim(); j++) {
-              //  paint.setColor(game.getBoxOccupier(j, i) == null ? Color.TRANSPARENT : playerColors[Player.indexIn(game.getBoxOccupier(j, i), game.getPlayers())]);
-                paint.setColor(Color.LTGRAY);
+                int box = game.getBoxOccupier(j, i);
+                //paint.setColor( box == 0 ? Color.TRANSPARENT : playerColors[Player.indexIn(game.getBoxOccupier(j, i), game.getPlayers())]);
+                //paint.setColor(Color.WHITE);
                 canvas.drawRect(start + add5 * i + add1 + add2, start
                         + add5 * j + add1 + add2, start + add5 * i + add1
                         + add4 - add2, start + add5 * j + add1 + add4
@@ -224,7 +212,7 @@ public class GamePlay extends View implements Observer {
         }
 
         //paint points
-        paint.setColor(getResources().getColor(R.color.arancione));
+        paint.setColor(getResources().getColor(R.color.black));
         for (int i = 0; i < game.getDim() + 1; i++) {
             for (int j = 0; j < game.getDim() + 1; j++) {
                 canvas.drawCircle(start + add6 + j * add5 + 1, start + add6 + i * add5 + 1,
@@ -236,10 +224,5 @@ public class GamePlay extends View implements Observer {
     }
 
 
-    @Override
-
-    public void update(Observable o, Object arg) {
-
-    }
 
 }

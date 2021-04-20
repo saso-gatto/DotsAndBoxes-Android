@@ -235,16 +235,16 @@ public class Board implements Cloneable {
         if (edge.getHorizontal()==1){
 
             if(hEdge[edge.getX()][edge.getY()] == BLANK)
-                return true;
-            else
                 return false;
+            else
+                return true;
         }
         else if (edge.getHorizontal()==0){
 
             if(vEdge[edge.getX()][edge.getY()] == BLANK)
-                return true;
-            else
                 return false;
+            else
+                return true;
         }
             System.out.println("Caso non contemplato");
             return false;
