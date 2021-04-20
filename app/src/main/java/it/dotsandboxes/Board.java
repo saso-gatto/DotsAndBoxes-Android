@@ -24,9 +24,9 @@ public class Board implements Cloneable {
 	private ArrayList<Edge> mosseFatte = new ArrayList<Edge>();
 	
     public Board(int n) {
-        vEdge = new int[n][n+1];
-        hEdge = new int[n+1][n];
-        box = new int[n][n];
+        vEdge = new int[n+1][n+1];
+        hEdge = new int[n+1][n+1];
+        box = new int[n+1][n+1];
         fill(vEdge,BLANK);					//Indica che tutte le linee orizz. sono vuote
         fill(hEdge,BLANK);					//Indica che tutte le linee verticali sono vuote
         fill(box,BLANK);					//griglia vuota

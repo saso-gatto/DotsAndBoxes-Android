@@ -81,24 +81,25 @@ public class GamePlay extends View implements Observer {
                         && touchX <= (start + add5 * (j + 1) + add3)
                         && touchY >= start + add5 * i + add2 - add3
                         && touchY <= start + add5 * i + add1 - add2 + add3) {
-                    d = 0;
-                    a = i;
-                    b = j;
+                    d = 1;
+                    a = j;
+                    b = i;
                 }
                 if (start + add5 * i + add2 - add3 <= touchX
                         && touchX <= start + add5 * i + add1 - add2 + add3
                         && touchY >= start + add5 * j + add1 - add3
                         && touchY <= start + add5 * (j + 1) + add3) {
-                    d = 1;
-                    a = j;
-                    b = i;
+                    d = 0;
+                    a = i;
+                    b = j;
                 }
             }
         }
         //a!=-1 e b!=-1?
         if ((a != -1) && (b != -1)) {
             int direction = d;
-            Edge move = new Edge(a, b, direction);
+            Edge move = new Edge(b, a, direction);
+            System.out.println("("+move.getX()+", "+move.getY()+", "+move.getHorizontal()+")");
             try {
                 if (direction==0)
                     game.setVEdge(move.getX(),move.getY(),turn);
@@ -169,8 +170,8 @@ public class GamePlay extends View implements Observer {
         paint.setColor(0xFF000000);
         for (int i = 0; i < game.getDim()+1; i++) {
             for (int j = 0; j < game.getDim(); j++) {
-                Edge horizontal = new Edge(j, i,1);
-       /*         if (horizontal.equals(game.getLatestMove())) {
+                Edge horizontal = new Edge(i, j, 1);
+               if (horizontal.equals(game.getLatestMove())) {
                     paint.setColor(0xFFFF7700);
                 } else if (game.isEdgeOccupied(horizontal)) {
                     if (game.getLineOccupier(horizontal) == 1)
@@ -180,13 +181,16 @@ public class GamePlay extends View implements Observer {
                 } else {
                     paint.setColor(0xFFFFFFFF);
                  }
-*/
-                paint.setColor(Color.GREEN);
 
                 canvas.drawRect(start + add5 * j + add1, start + add5 * i
                         + add2, start + add5 * (j + 1), start + add5 * i + add1
                         - add2, paint);
 
+            }
+        }
+
+        for (int i = 0; i < game.getDim()+1; i++) {
+            for (int j = 0; j < game.getDim(); j++) {
                 Edge vertical = new Edge(j, i,0);
 
                 if (vertical.equals(game.getLatestMove())) {
@@ -201,7 +205,7 @@ public class GamePlay extends View implements Observer {
                 } else {
                     paint.setColor(0xFFFFFFFF);
                 }
-                canvas.drawRect(start + add5 * i + add2, start + add5 * j
+/*      */          canvas.drawRect(start + add5 * i + add2, start + add5 * j
                         + add1, start + add5 * i + add1 - add2, start + add5
                         * (j + 1), paint);
             }
