@@ -101,7 +101,7 @@ public class GamePlay extends View {
         if ((a != -1) && (b != -1)) {
             int direction = d;
             Edge move = new Edge(b, a, direction);
-
+            game.addUltimaMossa(move);
             System.out.println("("+move.getX()+", "+move.getY()+", "+move.getHorizontal()+")");
             try {
                 if (direction==0)
@@ -158,20 +158,22 @@ public class GamePlay extends View {
         for (int i = 0; i < game.getDim()+1; i++) {
             for (int j = 0; j < game.getDim(); j++) {
                 Edge horizontal = new Edge(i, j, 1);
-               if (horizontal.equals(game.getLatestMove())) {
-                    paint.setColor(0xFFFF7700);
-                } else if (game.isEdgeOccupied(horizontal)) {
-                    if (game.getLineOccupier(horizontal) == 1)
-                        paint.setColor(playerColors[0]);
-                    else
-                        paint.setColor(playerColors[1]);
-                } else {
-                    paint.setColor(0xFFFFFFFF);
-                 }
+
+
+                int colore = game.getColoreEdge(i,j,1);
+                if (colore==game.RED)
+                    paint.setColor(playerColors[0]);
+                else if (colore==game.BLUE)
+                    paint.setColor(playerColors[1]);
+                else if (colore==game.BLANK)
+                    paint.setColor(Color.WHITE);
+
 
                 canvas.drawRect(start + add5 * j + add1, start + add5 * i
                         + add2, start + add5 * (j + 1), start + add5 * i + add1
                         - add2, paint);
+
+
 
             }
         }
@@ -180,18 +182,14 @@ public class GamePlay extends View {
             for (int j = 0; j < game.getDim(); j++) {
                 Edge vertical = new Edge(j, i,0);
 
-                if (vertical.equals(game.getLatestMove())) {
-                    paint.setColor(0xFFFF7700);
-                } else if (game.isEdgeOccupied(vertical)) {
+                int colore = game.getColoreEdge(j,i,0);
+                if (colore==game.RED)
+                    paint.setColor(playerColors[0]);
+                else if (colore==game.BLUE)
+                    paint.setColor(playerColors[1]);
+                else if (colore==game.BLANK)
+                    paint.setColor(Color.WHITE);
 
-                        if (game.getLineOccupier(vertical) == 1)
-                            paint.setColor(playerColors[0]);
-                        else
-                            paint.setColor(playerColors[1]);
-
-                } else {
-                    paint.setColor(0xFFFFFFFF);
-                }
               canvas.drawRect(start + add5 * i + add2, start + add5 * j
                         + add1, start + add5 * i + add1 - add2, start + add5
                         * (j + 1), paint);
@@ -203,7 +201,7 @@ public class GamePlay extends View {
             for (int j = 0; j < game.getDim(); j++) {
                 int box = game.getBoxOccupier(j, i);
                 //paint.setColor( box == 0 ? Color.TRANSPARENT : playerColors[Player.indexIn(game.getBoxOccupier(j, i), game.getPlayers())]);
-                //paint.setColor(Color.WHITE);
+                paint.setColor(Color.WHITE);
                 canvas.drawRect(start + add5 * i + add1 + add2, start
                         + add5 * j + add1 + add2, start + add5 * i + add1
                         + add4 - add2, start + add5 * j + add1 + add4
