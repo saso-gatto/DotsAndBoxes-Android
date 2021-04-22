@@ -199,9 +199,18 @@ public class GamePlay extends View {
         //paint boxes
         for (int i = 0; i < game.getDim(); i++) {
             for (int j = 0; j < game.getDim(); j++) {
-                int box = game.getBoxOccupier(j, i);
+
+
+                int coloreBox = game.getColoreBox(j, i);
+                if(coloreBox==game.RED)
+                    paint.setColor(playerColors[0]);
+                else if(coloreBox==game.BLUE)
+                    paint.setColor(playerColors[1]);
+                else if(coloreBox==game.BLANK)
+                    paint.setColor(Color.WHITE);
+
                 //paint.setColor( box == 0 ? Color.TRANSPARENT : playerColors[Player.indexIn(game.getBoxOccupier(j, i), game.getPlayers())]);
-                paint.setColor(Color.WHITE);
+                //paint.setColor(Color.WHITE);
                 canvas.drawRect(start + add5 * i + add1 + add2, start
                         + add5 * j + add1 + add2, start + add5 * i + add1
                         + add4 - add2, start + add5 * j + add1 + add4

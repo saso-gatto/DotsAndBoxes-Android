@@ -141,7 +141,7 @@ public class Board implements Cloneable {
     public ArrayList<Point> setVEdge(int x, int y, int color) {
     	vEdge[x][y]=color;
         ArrayList<Point> quadrati = new ArrayList<Point>();
-        if(y<(dim) && hEdge[x][y]==BLACK && hEdge[x+1][y]==BLACK && vEdge[x][y+1]==BLACK) {
+        if(y<(dim) && hEdge[x][y]!=BLANK && hEdge[x+1][y]!=BLANK && vEdge[x][y+1]!=BLANK) {
             box[x][y]=color;
             quadrati.add(new Point(x,y));
             if(color == RED) 
@@ -149,7 +149,7 @@ public class Board implements Cloneable {
             else
             	blueScore++;
         }
-        if(y>0 && hEdge[x][y-1]==BLACK && hEdge[x+1][y-1]==BLACK && vEdge[x][y-1]==BLACK) {
+        if(y>0 && hEdge[x][y-1]!=BLANK && hEdge[x+1][y-1]!=BLANK && vEdge[x][y-1]!=BLANK) {
             box[x][y-1]=color;
             quadrati.add(new Point(x,y-1));
             if(color == RED) 
@@ -164,13 +164,13 @@ public class Board implements Cloneable {
     public ArrayList<Point> setHEdge(int x, int y, int color) {
         hEdge[x][y]=color;
         ArrayList<Point> quadrati = new ArrayList<Point>();
-        if(x<(dim) && vEdge[x][y]==BLACK && vEdge[x][y+1]==BLACK && hEdge[x+1][y]==BLACK) {
+        if(x<(dim) && vEdge[x][y]!=BLANK && vEdge[x][y+1]!=BLANK && hEdge[x+1][y]!=BLANK) {
             box[x][y]=color;
             quadrati.add(new Point(x,y));
             if(color == RED) redScore++;
             else blueScore++;
         }
-        if(x>0 && vEdge[x-1][y]==BLACK && vEdge[x-1][y+1]==BLACK && hEdge[x-1][y]==BLACK) {
+        if(x>0 && vEdge[x-1][y]!=BLANK && vEdge[x-1][y+1]!=BLANK && hEdge[x-1][y]!=BLANK) {
             box[x-1][y]=color;
             quadrati.add(new Point(x-1,y));
             if(color == RED) redScore++;
@@ -186,6 +186,10 @@ public class Board implements Cloneable {
         else {
             return hEdge[x][y];
         }
+    }
+
+    public int getColoreBox(int x, int y) {
+            return box[x][y];
     }
 
     //Condizione di stop del gioco
@@ -268,7 +272,4 @@ public class Board implements Cloneable {
 
     }
 
-    public int getBoxOccupier(int row, int column) {
-        return box[row][column];
-    }
 }
