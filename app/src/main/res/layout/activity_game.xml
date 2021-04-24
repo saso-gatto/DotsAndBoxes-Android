@@ -5,7 +5,60 @@
     android:padding="16dp"
     android:layout_gravity="center">
 
+
+    <RelativeLayout
+        android:id="@+id/layoutInfoGioco"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/player1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Player1"
+            android:textSize="16sp"/>
+        <TextView
+            android:id="@+id/player2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Player2"
+            android:layout_toRightOf="@+id/player1"
+            android:layout_marginLeft="50dp"
+            android:textSize="16sp"/>
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layoutPunteggio"
+        android:layout_below="@id/layoutInfoGioco"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="60dp"
+        android:gravity="center">
+    <TextView
+        android:id="@+id/Scoreplayer1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textSize="16sp"/>
+    <TextView
+        android:id="@+id/Scoreplayer2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:layout_toRightOf="@+id/Scoreplayer1"
+        android:layout_marginLeft="90dp"
+        android:textSize="16sp"/>
+    </RelativeLayout>
+
+
+
     <it.dotsandboxes.GamePlay
+        android:layout_below="@+id/layoutPunteggio"
         android:id="@+id/gameView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

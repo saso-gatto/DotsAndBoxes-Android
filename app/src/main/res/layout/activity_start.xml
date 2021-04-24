@@ -37,7 +37,7 @@
         android:layout_below="@+id/imgGioco"
         android:layout_marginTop="30dp"
         android:layout_centerHorizontal="true"
-        android:backgroundTint="@color/teal_200"/>
+        android:backgroundTint="@color/verdeAcquaChiaro"/>
 
 
 </RelativeLayout>

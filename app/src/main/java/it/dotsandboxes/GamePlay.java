@@ -39,17 +39,19 @@ public class GamePlay extends View {
 
     protected Paint paint;
 
-    private int dim;
     private Board game;
     private int turn;
     private ASPSolver blueSolver,redSolver;
     protected final int[] playerColors;
-    String redName, blueName;
+
+    private int redScore,blueScore;
 
     public GamePlay(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
         paint = new Paint();
         game= new Board(5);
+        redScore=0;
+        blueScore=0;
         this.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -62,6 +64,21 @@ public class GamePlay extends View {
     }
 
 
+    public int getRedScore() {
+        return redScore;
+    }
+
+    public void setRedScore(int redScore) {
+        this.redScore = redScore;
+    }
+
+    public int getBlueScore() {
+        return blueScore;
+    }
+
+    public void setBlueScore(int blueScore) {
+        this.blueScore = blueScore;
+    }
 
     //Equivale al metodo processMove di JAVA, sono analoghi
     private void receiveInput(MotionEvent event) {
@@ -101,9 +118,11 @@ public class GamePlay extends View {
         if ((a != -1) && (b != -1)) {
             int direction = d;
             Edge move = new Edge(b, a, direction);
-            game.addUltimaMossa(move);
             System.out.println("("+move.getX()+", "+move.getY()+", "+move.getHorizontal()+")");
             try {
+                if(game.getColoreEdge(move.getX(),move.getY(),move.getHorizontal())!= game.BLANK)
+                    return;
+
                 if (direction==0)
                     game.setVEdge(move.getX(),move.getY(),turn);
                 else if (direction==1)
@@ -111,22 +130,35 @@ public class GamePlay extends View {
             } catch (Exception e) {
                 Log.e("GameView", e.toString());
             }
+            game.addUltimaMossa(move);
+            manageGame();
         }
-        manageGame();
+
     }
     //DA RIVEDERE DOPO L'AGGIUNTA DI EMBASP
     private void manageGame() {
 
         System.out.println("Board: turn "+turn);
 
-        if (turn==Board.BLUE )
+        if (turn==Board.BLUE && blueScore<game.getBlueScore()) {
+            turn = Board.BLUE;
+            blueScore = game.getBlueScore();
+        }
+        else if (turn==Board.BLUE && blueScore==game.getBlueScore()) {
             turn = Board.RED;
-        else if (turn==Board.RED)
-            turn =Board.BLUE;
+        }
+        else if (turn==Board.RED && redScore<game.getRedScore()) {
+            turn = Board.RED;
+            redScore = game.getRedScore();
+        }
+        else if (turn==Board.RED && redScore==game.getRedScore()) {
+            turn = Board.BLUE;
+        }
+
+
+
         /*
         while(!game.isComplete()) {
-
-
 
             try {
                 Thread.sleep(100);
@@ -229,7 +261,5 @@ public class GamePlay extends View {
 
         invalidate();
     }
-
-
 
 }

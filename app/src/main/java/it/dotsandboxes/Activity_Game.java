@@ -3,16 +3,21 @@ package it.dotsandboxes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class Activity_Game extends AppCompatActivity {
 
     private  GamePlay gamePlay;
+    private TextView ScoreBlue,ScoreRed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +27,6 @@ public class Activity_Game extends AppCompatActivity {
         gamePlay = findViewById(R.id.gameView);
 
 
-
     }
+
 }
