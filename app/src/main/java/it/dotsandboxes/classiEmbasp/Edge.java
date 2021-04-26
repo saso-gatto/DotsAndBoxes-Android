@@ -1,15 +1,15 @@
 package it.dotsandboxes.classiEmbasp;
-//import it.unical.mat.embasp.languages.Id;
-//import it.unical.mat.embasp.languages.Param;
+import it.unical.mat.embasp.languages.Id;
+import it.unical.mat.embasp.languages.Param;
 
-//@Id("edge")
+@Id("edge")
 public class Edge {
 	
-//	@Param(0)
+	@Param(0)
 	private int x; 
-//	@Param(1)
+	@Param(1)
 	private int y;
-//	@Param(2)
+	@Param(2)
 	private int horizontal; // 0 -> verticale    1 -> orizzontale 
 
     public Edge() {

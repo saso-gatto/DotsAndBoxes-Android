@@ -1,7 +1,13 @@
 package it.dotsandboxes;
 
+import android.content.Context;
+
 import java.util.ArrayList;
-/*
+
+import it.dotsandboxes.classiEmbasp.Assegno;
+import it.dotsandboxes.classiEmbasp.Edge;
+import it.dotsandboxes.classiEmbasp.NoEdge;
+import it.dotsandboxes.classiEmbasp.Size;
 import it.unical.mat.embasp.base.Handler;
 import it.unical.mat.embasp.base.InputProgram;
 import it.unical.mat.embasp.base.Output;
@@ -11,11 +17,13 @@ import it.unical.mat.embasp.languages.asp.ASPInputProgram;
 import it.unical.mat.embasp.languages.asp.ASPMapper;
 import it.unical.mat.embasp.languages.asp.AnswerSet;
 import it.unical.mat.embasp.languages.asp.AnswerSets;
+import it.unical.mat.embasp.platforms.android.AndroidHandler;
 import it.unical.mat.embasp.platforms.desktop.DesktopHandler;
+import it.unical.mat.embasp.specializations.dlv2.android.DLV2AndroidService;
 import it.unical.mat.embasp.specializations.dlv2.desktop.DLV2DesktopService;
-*/
+
 public class ASPSolver {
-/*
+
 	private static String encodingResource="encodings/DotsAndBoxes";
 	private static Handler handler;
 	private boolean start;
@@ -26,7 +34,9 @@ public class ASPSolver {
 	
 	public ASPSolver() {
 
-			handler = new DesktopHandler(new DLV2DesktopService("lib/dlv2.mac_7"));
+
+	    handler = new AndroidHandler(c, DLV2AndroidService.class);
+                //DesktopHandler(new DLV2DesktopService("lib/dlv2.mac_7"));
 
 
 		//classe Edge che viene prima registrata all'ASPMapper
@@ -151,5 +161,5 @@ public class ASPSolver {
 		System.out.println(facts.getPrograms());
 	}
 
- */
+
 }

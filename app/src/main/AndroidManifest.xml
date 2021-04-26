@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="it.dotsandboxes">
 
     <application
+        tools:replace="android:theme"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -22,6 +24,14 @@
 
         <activity android:name=".Activity_Game">
         </activity>
+
+        <service
+            android:name="it.unical.mat.embasp.specializations.dlv2.android.DLV2AndroidReasoner"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":remote">
+        </service>
+
     </application>
 
 </manifest>

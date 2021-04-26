@@ -1,11 +1,11 @@
 package it.dotsandboxes.classiEmbasp;
-//import it.unical.mat.embasp.languages.Id;
-//import it.unical.mat.embasp.languages.Param;
+import it.unical.mat.embasp.languages.Id;
+import it.unical.mat.embasp.languages.Param;
 
-//@Id("size")
+@Id("size")
 public class Size {
 
-	//@Param(0)
+	@Param(0)
 	private int dim;
 
 	public int getDim() {

@@ -25,8 +25,6 @@ import it.dotsandboxes.classiEmbasp.Edge;
 public class GamePlay extends View {
 
 
-    private final static int size = 8;	//Spessore linee
-    private final static int dist = 50;	//Lunghezza di Edge
     //Dati utili per distanziare le line e i cerchi per il draw della matrice
     protected static final float radius = (float) 14 / 824;
     protected static final float start = (float) 6 / 824;

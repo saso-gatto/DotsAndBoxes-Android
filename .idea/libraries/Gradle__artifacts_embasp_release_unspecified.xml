@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: artifacts:embasp-release:unspecified">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/embasp-release/build/.transforms/0e26e9f2e0578db4b48c3eb5219dc676/jetified-embasp-release/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/embasp-release/build/.transforms/0e26e9f2e0578db4b48c3eb5219dc676/jetified-embasp-release/res" />
+      <root url="file://$PROJECT_DIR$/embasp-release/build/.transforms/0e26e9f2e0578db4b48c3eb5219dc676/jetified-embasp-release/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
