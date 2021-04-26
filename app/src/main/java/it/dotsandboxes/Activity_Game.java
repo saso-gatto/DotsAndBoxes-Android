@@ -25,7 +25,8 @@ public class Activity_Game extends AppCompatActivity {
         setContentView(R.layout.activity_game);
 
         gamePlay = findViewById(R.id.gameView);
-
+        //ASPSolver redSolver = new ASPSolver(getApplicationContext());
+       // gamePlay.setRedSolver(redSolver);
 
     }
 

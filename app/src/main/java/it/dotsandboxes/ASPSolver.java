@@ -1,13 +1,19 @@
 package it.dotsandboxes;
 
 import android.content.Context;
+import android.util.Log;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import it.dotsandboxes.classiEmbasp.Assegno;
 import it.dotsandboxes.classiEmbasp.Edge;
 import it.dotsandboxes.classiEmbasp.NoEdge;
 import it.dotsandboxes.classiEmbasp.Size;
+import it.unical.mat.embasp.base.Callback;
 import it.unical.mat.embasp.base.Handler;
 import it.unical.mat.embasp.base.InputProgram;
 import it.unical.mat.embasp.base.Output;
@@ -18,27 +24,65 @@ import it.unical.mat.embasp.languages.asp.ASPMapper;
 import it.unical.mat.embasp.languages.asp.AnswerSet;
 import it.unical.mat.embasp.languages.asp.AnswerSets;
 import it.unical.mat.embasp.platforms.android.AndroidHandler;
-import it.unical.mat.embasp.platforms.desktop.DesktopHandler;
 import it.unical.mat.embasp.specializations.dlv2.android.DLV2AndroidService;
-import it.unical.mat.embasp.specializations.dlv2.desktop.DLV2DesktopService;
 
 public class ASPSolver {
 
-	private static String encodingResource="encodings/DotsAndBoxes";
+	private static String encodingResource="dotsandboxes";
 	private static Handler handler;
 	private boolean start;
 	
 	private InputProgram facts;
 	private InputProgram var;
+	private Edge daAggiungere;
+
+	private class MyCallback implements Callback {
+		@Override
+		public void callback(Output output) {
+			if (!(output instanceof AnswerSets)) return;
+			AnswerSets answersets = (AnswerSets) output;
+			Log.i("DLV", ((AnswerSets) output).getAnswerSetsString());
+
+			if (answersets.getAnswersets().size() <= 0) {
+				System.out.println("No AS");
+				System.out.println();
+				return;
+			}
+			Edge ritorna;
+			System.out.println(answersets.getOptimalAnswerSets());
+			for (AnswerSet a : answersets.getOptimalAnswerSets()) {
+				try {
+					System.out.println("Stampa AS");
+					System.out.println(a.toString());
+
+					for (Object obj : a.getAtoms()) {
+						//Scartiamo tutto cio' che non e' un oggetto della classe Assegno
+						if (!(obj instanceof Assegno)) continue;
+						Assegno mossa = (Assegno) obj;
+						ritorna = new Edge(mossa.getX(), mossa.getY(), mossa.getHorizontal());
+
+						//if (!check(b, ritorna)) {
+							//System.out.println("Non aggiungo edge - continue");
+						//	continue;
+						//}
+						facts.addObjectInput(ritorna);
+
+						var.clearAll();
+						daAggiungere= ritorna;
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			//displaySolution();
+		}
+
+	}
 
 	
-	public ASPSolver() {
-
-
+	public ASPSolver(Context c) {
 	    handler = new AndroidHandler(c, DLV2AndroidService.class);
                 //DesktopHandler(new DLV2DesktopService("lib/dlv2.mac_7"));
-
-
 		//classe Edge che viene prima registrata all'ASPMapper
 		try {
 			ASPMapper.getInstance().registerClass(Edge.class);
@@ -49,9 +93,12 @@ public class ASPSolver {
 		} catch (ObjectNotValidException | IllegalAnnotationException e1) {
 			e1.printStackTrace();
 		}
-
 		facts= new ASPInputProgram();
-		this.start=true;
+		start=true;
+
+		String encodingDots = getEncodingFromResources(c);
+		handler.addProgram(new InputProgram(encodingDots));
+
 		InputProgram encoding= new ASPInputProgram();
 		encoding.addFilesPath(encodingResource);
 
@@ -96,10 +143,28 @@ public class ASPSolver {
 			}
 		}
 	}
+
+	private String getEncodingFromResources(Context c){
+		InputStream ins = c.getResources().openRawResource(
+				c.getResources().getIdentifier(encodingResource,
+						"raw", c.getPackageName()));
+		BufferedReader reader=new BufferedReader(new InputStreamReader(ins));
+		String line="";
+		StringBuilder builder=new StringBuilder();
+		try {
+			while ((line = reader.readLine()) != null) {
+				builder.append(line);
+				builder.append("\n");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return builder.toString();
+	}
 	
 	
-	public Edge getNextMove(Board b, int color) {
-		if (this.start) {
+	public Edge getNextMove(Board b) {
+		if (start) {
 			try {
 				facts.addObjectInput(new Size(b.getDim()));
 			} catch (Exception e) {
@@ -109,56 +174,19 @@ public class ASPSolver {
 			handler.addProgram(facts);
 			handler.addProgram(var);
 
-			this.start=false;
+			start=false;
 		}
 		this.aggiungiFatto(b);
 		//this.stampaAS();
 		this.aggiungiMosseDisponibili(var,b);
 		Edge ritorna=null;
-		
-		Output o =  handler.startSync();
-		AnswerSets answersets = (AnswerSets) o;
-		
-		if (answersets.getAnswersets().size() <= 0) {
-			System.out.println("No AS");
-			System.out.println();
-		}
-		
-		System.out.println(answersets.getOptimalAnswerSets());
-		for(AnswerSet a: answersets.getOptimalAnswerSets()) {	
-			try {
-				System.out.println("Stampa AS");
-				System.out.println(a.toString());
-				
-				for(Object obj:a.getAtoms()){
 
-					
-					//Scartiamo tutto cio' che non e' un oggetto della classe Assegno
-					if(!(obj instanceof Assegno)) continue;
-					
-					Assegno mossa = (Assegno) obj;
-					ritorna= new Edge(mossa.getX(), mossa.getY(), mossa.getHorizontal());					
-				
-					if(!check(b, ritorna)) {
-						//System.out.println("Non aggiungo edge - continue");
-						continue;
-					}		
-					facts.addObjectInput(ritorna);
-					
-					var.clearAll();
-					return ritorna;
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			} 
-		}
-		return ritorna;
-	}
-	
-	
-	public void stampaAS () {
-		System.out.println("******** STAMPA AS ********");
-		System.out.println(facts.getPrograms());
+
+		
+		Callback callback = new MyCallback();
+		handler.startAsync(callback);
+		System.out.println(daAggiungere);
+		return new Edge(0,0,0);
 	}
 
 

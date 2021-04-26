@@ -44,12 +44,13 @@ public class GamePlay extends View {
 
     private int redScore,blueScore;
 
-    public GamePlay(Context context, AttributeSet attributeSet) {
+    public GamePlay(Context context, AttributeSet attributeSet, ASPSolver red) {
         super(context, attributeSet);
         paint = new Paint();
         game= new Board(5);
         redScore=0;
         blueScore=0;
+        redSolver = red;
         this.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -116,29 +117,35 @@ public class GamePlay extends View {
         if ((a != -1) && (b != -1)) {
             int direction = d;
             Edge move = new Edge(b, a, direction);
-            System.out.println("("+move.getX()+", "+move.getY()+", "+move.getHorizontal()+")");
-            try {
-                if(game.getColoreEdge(move.getX(),move.getY(),move.getHorizontal())!= game.BLANK)
-                    return;
-
-                if (direction==0)
-                    game.setVEdge(move.getX(),move.getY(),turn);
-                else if (direction==1)
-                    game.setHEdge(move.getX(),move.getY(),turn);
-            } catch (Exception e) {
-                Log.e("GameView", e.toString());
-            }
-            game.addUltimaMossa(move);
-            manageGame();
+            gestisciMossa(move,direction);
         }
 
     }
+
+    public void gestisciMossa (Edge move, int direction){
+        System.out.println("("+move.getX()+", "+move.getY()+", "+move.getHorizontal()+")");
+        try {
+            if(game.getColoreEdge(move.getX(),move.getY(),move.getHorizontal())!= game.BLANK)
+                return;
+
+            if (direction==0)
+                game.setVEdge(move.getX(),move.getY(),turn);
+            else if (direction==1)
+                game.setHEdge(move.getX(),move.getY(),turn);
+        } catch (Exception e) {
+            Log.e("GameView", e.toString());
+        }
+        game.addUltimaMossa(move);
+        manageGame();
+
+    }
+
     //DA RIVEDERE DOPO L'AGGIUNTA DI EMBASP
     private void manageGame() {
 
         System.out.println("Board: turn "+turn);
-
-        if (turn==Board.BLUE && blueScore<game.getBlueScore()) {
+        // caso valido quando sia blueSolver che redSolver == null
+     /*   if (turn==Board.BLUE && blueScore<game.getBlueScore()) {
             turn = Board.BLUE;
             blueScore = game.getBlueScore();
         }
@@ -151,9 +158,26 @@ public class GamePlay extends View {
         }
         else if (turn==Board.RED && redScore==game.getRedScore()) {
             turn = Board.BLUE;
+        } */
+
+        if (turn==Board.BLUE && blueScore<game.getBlueScore()) {
+            turn = Board.BLUE;
+            blueScore = game.getBlueScore();
         }
-
-
+        else if (turn==Board.BLUE && blueScore==game.getBlueScore()) {
+            turn = Board.RED;
+        }
+        else if (turn==Board.RED && redScore<game.getRedScore()){
+            turn = Board.RED;
+            redScore = game.getRedScore();
+            Edge move = redSolver.getNextMove(game);
+            gestisciMossa(move,move.getHorizontal());
+        }
+        else if (turn==Board.RED && redScore==game.getRedScore()) {
+            Edge move = redSolver.getNextMove(game);
+            gestisciMossa(move,move.getHorizontal());
+            turn = Board.BLUE;
+        }
 
         /*
         while(!game.isComplete()) {
@@ -260,4 +284,7 @@ public class GamePlay extends View {
         invalidate();
     }
 
+    public void setRedSolver(ASPSolver redSolver) {
+        this.redSolver=redSolver;
+    }
 }
