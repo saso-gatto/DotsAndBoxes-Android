@@ -44,13 +44,12 @@ public class GamePlay extends View {
 
     private int redScore,blueScore;
 
-    public GamePlay(Context context, AttributeSet attributeSet, ASPSolver red) {
+    public GamePlay(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
         paint = new Paint();
         game= new Board(5);
         redScore=0;
         blueScore=0;
-        redSolver = red;
         this.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -123,7 +122,7 @@ public class GamePlay extends View {
     }
 
     public void gestisciMossa (Edge move, int direction){
-        System.out.println("("+move.getX()+", "+move.getY()+", "+move.getHorizontal()+")");
+        System.out.println("------->   ("+move.getX()+", "+move.getY()+", "+move.getHorizontal()+")");
         try {
             if(game.getColoreEdge(move.getX(),move.getY(),move.getHorizontal())!= game.BLANK)
                 return;
@@ -143,7 +142,7 @@ public class GamePlay extends View {
     //DA RIVEDERE DOPO L'AGGIUNTA DI EMBASP
     private void manageGame() {
 
-        System.out.println("Board: turn "+turn);
+        //System.out.println("Board: turn "+turn);
         // caso valido quando sia blueSolver che redSolver == null
      /*   if (turn==Board.BLUE && blueScore<game.getBlueScore()) {
             turn = Board.BLUE;
@@ -285,6 +284,6 @@ public class GamePlay extends View {
     }
 
     public void setRedSolver(ASPSolver redSolver) {
-        this.redSolver=redSolver;
+        this.redSolver= redSolver;
     }
 }

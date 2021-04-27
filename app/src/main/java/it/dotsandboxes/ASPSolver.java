@@ -24,7 +24,9 @@ import it.unical.mat.embasp.languages.asp.ASPMapper;
 import it.unical.mat.embasp.languages.asp.AnswerSet;
 import it.unical.mat.embasp.languages.asp.AnswerSets;
 import it.unical.mat.embasp.platforms.android.AndroidHandler;
+import it.unical.mat.embasp.platforms.desktop.DesktopHandler;
 import it.unical.mat.embasp.specializations.dlv2.android.DLV2AndroidService;
+import it.unical.mat.embasp.specializations.dlv2.desktop.DLV2DesktopService;
 
 public class ASPSolver {
 
@@ -34,55 +36,14 @@ public class ASPSolver {
 	
 	private InputProgram facts;
 	private InputProgram var;
+
 	private Edge daAggiungere;
 
-	private class MyCallback implements Callback {
-		@Override
-		public void callback(Output output) {
-			if (!(output instanceof AnswerSets)) return;
-			AnswerSets answersets = (AnswerSets) output;
-			Log.i("DLV", ((AnswerSets) output).getAnswerSetsString());
 
-			if (answersets.getAnswersets().size() <= 0) {
-				System.out.println("No AS");
-				System.out.println();
-				return;
-			}
-			Edge ritorna;
-			System.out.println(answersets.getOptimalAnswerSets());
-			for (AnswerSet a : answersets.getOptimalAnswerSets()) {
-				try {
-					System.out.println("Stampa AS");
-					System.out.println(a.toString());
+	public ASPSolver(Context context) {
 
-					for (Object obj : a.getAtoms()) {
-						//Scartiamo tutto cio' che non e' un oggetto della classe Assegno
-						if (!(obj instanceof Assegno)) continue;
-						Assegno mossa = (Assegno) obj;
-						ritorna = new Edge(mossa.getX(), mossa.getY(), mossa.getHorizontal());
+		handler = new AndroidHandler(context, DLV2AndroidService.class);
 
-						//if (!check(b, ritorna)) {
-							//System.out.println("Non aggiungo edge - continue");
-						//	continue;
-						//}
-						facts.addObjectInput(ritorna);
-
-						var.clearAll();
-						daAggiungere= ritorna;
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			//displaySolution();
-		}
-
-	}
-
-	
-	public ASPSolver(Context c) {
-	    handler = new AndroidHandler(c, DLV2AndroidService.class);
-                //DesktopHandler(new DLV2DesktopService("lib/dlv2.mac_7"));
 		//classe Edge che viene prima registrata all'ASPMapper
 		try {
 			ASPMapper.getInstance().registerClass(Edge.class);
@@ -93,17 +54,77 @@ public class ASPSolver {
 		} catch (ObjectNotValidException | IllegalAnnotationException e1) {
 			e1.printStackTrace();
 		}
+
 		facts= new ASPInputProgram();
-		start=true;
+		this.start=true;
+		String encoding = getEncodingFromResources(context);
+		handler.addProgram(new InputProgram(encoding));
 
-		String encodingDots = getEncodingFromResources(c);
-		handler.addProgram(new InputProgram(encodingDots));
+	}
 
-		InputProgram encoding= new ASPInputProgram();
-		encoding.addFilesPath(encodingResource);
 
-		handler.addProgram(encoding);
-		
+	private class MyCallback implements Callback {
+		@Override
+		public void callback(Output o) {
+
+			System.out.println("*************** Sono in callback ******************");
+
+			if(!(o instanceof AnswerSets))return;
+			AnswerSets answersets=(AnswerSets)o;
+			Log.i("DLV", ((AnswerSets) o).getAnswerSetsString());
+			if(answersets.getAnswersets().size()==0)return;
+
+
+			System.out.println(answersets.getOptimalAnswerSets());
+			for(AnswerSet a: answersets.getOptimalAnswerSets()) {
+				try {
+					System.out.println("Stampa AS");
+					System.out.println(a.toString());
+
+					for(Object obj:a.getAtoms()){
+
+
+						//Scartiamo tutto cio' che non e' un oggetto della classe Assegno
+						if(!(obj instanceof Assegno)) continue;
+
+						Assegno mossa = (Assegno) obj;
+						daAggiungere= new Edge(mossa.getX(), mossa.getY(), mossa.getHorizontal());
+
+						//if(!check(b, ritorna)) {
+							//System.out.println("Non aggiungo edge - continue");
+						//	continue;
+						//}
+						facts.addObjectInput(daAggiungere);
+
+						var.clearAll();
+						System.out.println(daAggiungere);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
+
+
+		}
+	}
+
+	private String getEncodingFromResources(Context c){
+		InputStream ins = c.getResources().openRawResource(
+				c.getResources().getIdentifier(encodingResource,
+						"raw", c.getPackageName()));
+		BufferedReader reader=new BufferedReader(new InputStreamReader(ins));
+		String line="";
+		StringBuilder builder=new StringBuilder();
+		try {
+			while ((line = reader.readLine()) != null) {
+				builder.append(line);
+				builder.append("\n");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return builder.toString();
 	}
 	
 	
@@ -143,28 +164,10 @@ public class ASPSolver {
 			}
 		}
 	}
-
-	private String getEncodingFromResources(Context c){
-		InputStream ins = c.getResources().openRawResource(
-				c.getResources().getIdentifier(encodingResource,
-						"raw", c.getPackageName()));
-		BufferedReader reader=new BufferedReader(new InputStreamReader(ins));
-		String line="";
-		StringBuilder builder=new StringBuilder();
-		try {
-			while ((line = reader.readLine()) != null) {
-				builder.append(line);
-				builder.append("\n");
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return builder.toString();
-	}
 	
 	
 	public Edge getNextMove(Board b) {
-		if (start) {
+		if (this.start) {
 			try {
 				facts.addObjectInput(new Size(b.getDim()));
 			} catch (Exception e) {
@@ -174,19 +177,63 @@ public class ASPSolver {
 			handler.addProgram(facts);
 			handler.addProgram(var);
 
-			start=false;
+			this.start=false;
 		}
 		this.aggiungiFatto(b);
-		//this.stampaAS();
+		this.stampaAS();
 		this.aggiungiMosseDisponibili(var,b);
 		Edge ritorna=null;
 
 
-		
 		Callback callback = new MyCallback();
 		handler.startAsync(callback);
-		System.out.println(daAggiungere);
+
+		//AnswerSets answersets = (AnswerSets) o;
+		/*
+		if (answersets.getAnswersets().size() <= 0) {
+			System.out.println("No AS");
+			System.out.println();
+		}
+		
+		System.out.println(answersets.getOptimalAnswerSets());
+		for(AnswerSet a: answersets.getOptimalAnswerSets()) {	
+			try {
+				System.out.println("Stampa AS");
+				System.out.println(a.toString());
+				
+				for(Object obj:a.getAtoms()){
+
+					
+					//Scartiamo tutto cio' che non e' un oggetto della classe Assegno
+					if(!(obj instanceof Assegno)) continue;
+					
+					Assegno mossa = (Assegno) obj;
+					ritorna= new Edge(mossa.getX(), mossa.getY(), mossa.getHorizontal());					
+				
+					if(!check(b, ritorna)) {
+						//System.out.println("Non aggiungo edge - continue");
+						continue;
+					}		
+					facts.addObjectInput(ritorna);
+					
+					var.clearAll();
+					return ritorna;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} 
+		}
+		 */
 		return new Edge(0,0,0);
+
+
+
+	}
+	
+	
+	public void stampaAS () {
+		System.out.println("******** STAMPA AS ********");
+		System.out.println(facts.getPrograms());
 	}
 
 
