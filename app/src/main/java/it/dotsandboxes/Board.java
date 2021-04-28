@@ -13,7 +13,7 @@ public class Board implements Cloneable {
     final static int BLUE = 1;
     final static int BLACK = 2;
     final static int BLANK = 3;
-    private int TURN;
+    private int turn;
 
     private int[][] vEdge;					//Griglia linee orizzontali
     private int[][] hEdge;					//Griglia delle linee verticali 
@@ -32,6 +32,7 @@ public class Board implements Cloneable {
         fill(box,BLANK);					//griglia vuota
         this.dim = n;
         redScore = blueScore = 0;
+        turn=BLUE;
     }
     
     public void svuotaMosse() {
@@ -88,9 +89,17 @@ public class Board implements Cloneable {
 	public void setDim(int n) {
 		this.dim = n;
 	}
-	
-	
-    private void fill(int[][] array, int val) {		
+
+
+    public int getTurn() {
+        return turn;
+    }
+
+    public void setTurn(int turn) {
+        this.turn = turn;
+    }
+
+    private void fill(int[][] array, int val) {
         for(int i=0; i<array.length; i++)
             for(int j=0; j<array[i].length; j++)
                 array[i][j]=val;
@@ -144,7 +153,7 @@ public class Board implements Cloneable {
         if(y<(dim) && hEdge[x][y]!=BLANK && hEdge[x+1][y]!=BLANK && vEdge[x][y+1]!=BLANK) {
             box[x][y]=color;
             quadrati.add(new Point(x,y));
-            if(color == RED) 
+            if(color == RED)
             	redScore++;
             else
             	blueScore++;
@@ -156,6 +165,12 @@ public class Board implements Cloneable {
             	redScore++;
             else 
             	blueScore++;
+        }
+        if(quadrati.isEmpty()){
+            if(color==RED)
+                turn=BLUE;
+            else if(color==BLUE)
+                turn=RED;
         }
         return quadrati;
     }
@@ -175,6 +190,13 @@ public class Board implements Cloneable {
             quadrati.add(new Point(x-1,y));
             if(color == RED) redScore++;
             else blueScore++;
+        }
+
+        if(quadrati.isEmpty()){
+            if(color==RED)
+                turn=BLUE;
+            else if(color==BLUE)
+                turn=RED;
         }
         return quadrati;
     }

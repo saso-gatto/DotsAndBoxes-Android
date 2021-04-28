@@ -167,6 +167,7 @@ public class ASPSolver {
 	
 	
 	public Edge getNextMove(Board b) {
+
 		if (this.start) {
 			try {
 				facts.addObjectInput(new Size(b.getDim()));

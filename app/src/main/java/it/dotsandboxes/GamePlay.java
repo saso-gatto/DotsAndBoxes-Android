@@ -19,6 +19,7 @@ import com.google.android.material.internal.FlowLayout;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Handler;
 
 import it.dotsandboxes.classiEmbasp.Edge;
 
@@ -59,8 +60,20 @@ public class GamePlay extends View {
         });
         playerColors = new int[]{getResources().getColor(R.color.arancione),
                 getResources().getColor(R.color.azzurro)};
+
+        this.redSolver=new ASPSolver(context);
+        manageGame();
     }
 
+
+
+    public int getTurn() {
+        return turn;
+    }
+
+    public void setTurn(int turn) {
+        this.turn = turn;
+    }
 
     public int getRedScore() {
         return redScore;
@@ -122,7 +135,7 @@ public class GamePlay extends View {
     }
 
     public void gestisciMossa (Edge move, int direction){
-        System.out.println("------->   ("+move.getX()+", "+move.getY()+", "+move.getHorizontal()+")");
+        System.out.println("mossa inserita   ------->   ("+move.getX()+", "+move.getY()+", "+move.getHorizontal()+")");
         try {
             if(game.getColoreEdge(move.getX(),move.getY(),move.getHorizontal())!= game.BLANK)
                 return;
@@ -139,49 +152,37 @@ public class GamePlay extends View {
 
     }
 
-    //DA RIVEDERE DOPO L'AGGIUNTA DI EMBASP
-    private void manageGame() {
 
-        //System.out.println("Board: turn "+turn);
-        // caso valido quando sia blueSolver che redSolver == null
-     /*   if (turn==Board.BLUE && blueScore<game.getBlueScore()) {
-            turn = Board.BLUE;
-            blueScore = game.getBlueScore();
-        }
-        else if (turn==Board.BLUE && blueScore==game.getBlueScore()) {
-            turn = Board.RED;
-        }
-        else if (turn==Board.RED && redScore<game.getRedScore()) {
-            turn = Board.RED;
-            redScore = game.getRedScore();
-        }
-        else if (turn==Board.RED && redScore==game.getRedScore()) {
-            turn = Board.BLUE;
-        } */
+    public void manageGame() {
 
-        if (turn==Board.BLUE && blueScore<game.getBlueScore()) {
-            turn = Board.BLUE;
-            blueScore = game.getBlueScore();
-        }
-        else if (turn==Board.BLUE && blueScore==game.getBlueScore()) {
-            turn = Board.RED;
-        }
-        else if (turn==Board.RED && redScore<game.getRedScore()){
-            turn = Board.RED;
-            redScore = game.getRedScore();
-            Edge move = redSolver.getNextMove(game);
-            gestisciMossa(move,move.getHorizontal());
-        }
-        else if (turn==Board.RED && redScore==game.getRedScore()) {
-            Edge move = redSolver.getNextMove(game);
-            gestisciMossa(move,move.getHorizontal());
-            turn = Board.BLUE;
-        }
+            this.turn=game.getTurn();
 
-        /*
-        while(!game.isComplete()) {
+            if (turn==Board.RED ) {
+                Edge move = redSolver.getNextMove(game);
+                gestisciMossa(move,move.getHorizontal());
+            }
 
-            try {
+    /*
+            if (turn==Board.BLUE && blueScore<game.getBlueScore()) {
+                turn = Board.BLUE;
+                blueScore = game.getBlueScore();
+            }
+            else if (turn==Board.BLUE && blueScore==game.getBlueScore()) {
+                turn = Board.RED;
+            }
+            else if (turn==Board.RED && redScore<game.getRedScore()){
+                turn = Board.RED;
+                redScore = game.getRedScore();
+                Edge move = redSolver.getNextMove(game);
+                gestisciMossa(move,move.getHorizontal());
+            }
+            else if (turn==Board.RED && redScore==game.getRedScore()) {
+                Edge move = redSolver.getNextMove(game);
+                gestisciMossa(move,move.getHorizontal());
+                turn = Board.BLUE;
+            }
+  while(!game.isComplete()) {
+                try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
