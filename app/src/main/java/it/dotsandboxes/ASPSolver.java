@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import it.dotsandboxes.classiEmbasp.Assegno;
 import it.dotsandboxes.classiEmbasp.Edge;
 import it.dotsandboxes.classiEmbasp.NoEdge;
+import it.dotsandboxes.classiEmbasp.Player;
 import it.dotsandboxes.classiEmbasp.Size;
 import it.unical.mat.embasp.base.Callback;
 import it.unical.mat.embasp.base.Handler;
@@ -28,20 +29,18 @@ import it.unical.mat.embasp.platforms.desktop.DesktopHandler;
 import it.unical.mat.embasp.specializations.dlv2.android.DLV2AndroidService;
 import it.unical.mat.embasp.specializations.dlv2.desktop.DLV2DesktopService;
 
-public class ASPSolver {
+public class ASPSolver extends Player {
 
 	private static String encodingResource="dotsandboxes";
 	private static Handler handler;
 	private boolean start;
-	
 	private InputProgram facts;
 	private InputProgram var;
 
-	private Edge daAggiungere;
+	private Edge daAggiungere = null;
 
-
-	public ASPSolver(Context context) {
-
+	public ASPSolver(String name, Context context) {
+		super(name);
 		handler = new AndroidHandler(context, DLV2AndroidService.class);
 
 		//classe Edge che viene prima registrata all'ASPMapper
@@ -55,11 +54,35 @@ public class ASPSolver {
 			e1.printStackTrace();
 		}
 
-		facts= new ASPInputProgram();
-		this.start=true;
+		facts = new ASPInputProgram();
+		this.start = true;
 		String encoding = getEncodingFromResources(context);
 		handler.addProgram(new InputProgram(encoding));
+	}
 
+	@Override
+	public Edge move() {
+		if (this.start) {
+			try {
+				facts.addObjectInput(new Size(5));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			var = new ASPInputProgram();
+			handler.addProgram(facts);
+			handler.addProgram(var);
+
+			this.start=false;
+		}
+		this.aggiungiFatto(game);
+		this.stampaAS();
+		this.aggiungiMosseDisponibili(var,game);
+		Edge ritorna=null;
+		Callback callback = new MyCallback();
+		handler.startAsync(callback);
+		while (daAggiungere==null)
+			System.out.println("attesa");
+		return daAggiungere;
 	}
 
 
@@ -165,7 +188,7 @@ public class ASPSolver {
 		}
 	}
 	
-	
+/*
 	public Edge getNextMove(Board b) {
 
 		if (this.start) {
@@ -224,12 +247,12 @@ public class ASPSolver {
 				e.printStackTrace();
 			} 
 		}
-		 */
+
 		return new Edge(0,0,0);
 
 
 
-	}
+	} */
 	
 	
 	public void stampaAS () {

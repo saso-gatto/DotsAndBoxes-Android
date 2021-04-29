@@ -16,11 +16,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import it.dotsandboxes.classiEmbasp.Player;
+
 public class Activity_Game extends AppCompatActivity {
 
     private  GamePlay gamePlay;
     private TextView ScoreBlue,ScoreRed;
-
+    Player[] players;
     private Handler handler;
 
     @Override
@@ -29,7 +31,13 @@ public class Activity_Game extends AppCompatActivity {
         setContentView(R.layout.activity_game);
 
         gamePlay = findViewById(R.id.gameView);
+        ASPSolver redSolver=new ASPSolver("RedSolver", getApplicationContext());
+        players = new Player[]{new HumanPlayer("Human"), new HumanPlayer("Mozione di sfiducia")};
+        startGame(players);
+    }
 
+    private void startGame(Player[] players) {
+        gamePlay.startGame(players);
     }
 
 

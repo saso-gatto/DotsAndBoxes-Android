@@ -6,15 +6,17 @@ import java.util.ArrayList;
 
 import it.dotsandboxes.classiEmbasp.Edge;
 import it.dotsandboxes.classiEmbasp.NoEdge;
+import it.dotsandboxes.classiEmbasp.Player;
 
-public class Board implements Cloneable {
+public class Board implements Cloneable  {
 
     final static int RED = 0;
     final static int BLUE = 1;
     final static int BLACK = 2;
     final static int BLANK = 3;
     private int turn;
-
+    private Player[] players;
+    private int currentPlayerIndex;
     private int[][] vEdge;					//Griglia linee orizzontali
     private int[][] hEdge;					//Griglia delle linee verticali 
     private int[][] box;					//Griglia del gioco		
@@ -23,7 +25,7 @@ public class Board implements Cloneable {
 	private Edge latestMove;
 	private ArrayList<Edge> mosseFatte = new ArrayList<Edge>();
 	
-    public Board(int n) {
+    public Board(int n, Player [] players) {
         vEdge = new int[n+1][n+1];
         hEdge = new int[n+1][n+1];
         box = new int[n+1][n+1];
@@ -33,8 +35,51 @@ public class Board implements Cloneable {
         this.dim = n;
         redScore = blueScore = 0;
         turn=BLUE;
+        currentPlayerIndex=Board.BLUE;
+        this.players=players;
+        addPlayersToGame(this.players);
     }
-    
+
+    public void start() {
+        while (!isComplete()) {
+            System.out.println("Turno corrente: "+currentPlayerIndex);
+            addMove(currentPlayer().move());
+//            setChanged();
+ //           notifyObservers();
+        }
+    }
+
+    public Player currentPlayer() {
+        return players[currentPlayerIndex];
+    }
+
+    private void addPlayersToGame(Player[] players) {
+        for (Player player : players) {
+            player.addToGame(this);
+        }
+    }
+
+    public void addMove(Edge mossa) {
+      //  if (getColoreEdge(mossa.getX(),mossa.getY(),mossa.getHorizontal())==Board.BLANK) {
+      //      return;
+      //  }
+      //  boolean newBoxOccupied = tryToOccupyBox(move);
+        boolean punto = false;
+        if (mossa.getHorizontal()==0)
+            punto=setHEdge(mossa.getX(),mossa.getY(),currentPlayerIndex);
+        else  if (mossa.getHorizontal()==1)
+            punto=setVEdge(mossa.getX(), mossa.getY(),currentPlayerIndex);
+        addUltimaMossa(mossa);
+
+        if (!punto) {
+            if (currentPlayerIndex == Board.RED) {
+                currentPlayerIndex = Board.BLUE;
+            } else if (currentPlayerIndex == Board.BLUE) {
+                currentPlayerIndex = Board.RED;
+            }
+        }
+    }
+
     public void svuotaMosse() {
     	this.mosseFatte.clear();
     }
@@ -147,12 +192,12 @@ public class Board implements Cloneable {
 
     //Il metodo setHEdge serve ad aggiungere una linea e ad assegnare un eventuale punteggio al giocatoer
     //I due if ci permettono di controllare anche i limiti della matrice
-    public ArrayList<Point> setVEdge(int x, int y, int color) {
+    public boolean setVEdge(int x, int y, int color) {
     	vEdge[x][y]=color;
-        ArrayList<Point> quadrati = new ArrayList<Point>();
+        boolean punto = false;
         if(y<(dim) && hEdge[x][y]!=BLANK && hEdge[x+1][y]!=BLANK && vEdge[x][y+1]!=BLANK) {
             box[x][y]=color;
-            quadrati.add(new Point(x,y));
+            punto=true;
             if(color == RED)
             	redScore++;
             else
@@ -160,45 +205,46 @@ public class Board implements Cloneable {
         }
         if(y>0 && hEdge[x][y-1]!=BLANK && hEdge[x+1][y-1]!=BLANK && vEdge[x][y-1]!=BLANK) {
             box[x][y-1]=color;
-            quadrati.add(new Point(x,y-1));
-            if(color == RED) 
+            punto=true;
+            if(color == RED)
             	redScore++;
             else 
             	blueScore++;
         }
-        if(quadrati.isEmpty()){
+      /*  if(punto){
             if(color==RED)
                 turn=BLUE;
             else if(color==BLUE)
                 turn=RED;
-        }
-        return quadrati;
+        } */
+        return punto;
     }
 
     //il metodo torna i quadrati creati con l'aggiunta dell'arco orizzontale in pos X,Y.
-    public ArrayList<Point> setHEdge(int x, int y, int color) {
+    public boolean setHEdge(int x, int y, int color) {
         hEdge[x][y]=color;
-        ArrayList<Point> quadrati = new ArrayList<Point>();
+        boolean punto = false;
         if(x<(dim) && vEdge[x][y]!=BLANK && vEdge[x][y+1]!=BLANK && hEdge[x+1][y]!=BLANK) {
             box[x][y]=color;
-            quadrati.add(new Point(x,y));
+            punto=true;
             if(color == RED) redScore++;
             else blueScore++;
         }
         if(x>0 && vEdge[x-1][y]!=BLANK && vEdge[x-1][y+1]!=BLANK && hEdge[x-1][y]!=BLANK) {
             box[x-1][y]=color;
-            quadrati.add(new Point(x-1,y));
+            punto=true;
             if(color == RED) redScore++;
             else blueScore++;
         }
 
-        if(quadrati.isEmpty()){
+      /*  if(punto){
+            System.out.println("Punto fatto.");
             if(color==RED)
                 turn=BLUE;
             else if(color==BLUE)
                 turn=RED;
-        }
-        return quadrati;
+        } */
+        return punto;
     }
 
     public int getColoreEdge(int x, int y, int h) {

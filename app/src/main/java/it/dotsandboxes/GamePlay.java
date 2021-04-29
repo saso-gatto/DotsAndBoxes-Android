@@ -16,12 +16,15 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.material.internal.FlowLayout;
 
+import org.antlr.v4.misc.Graph;
+
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Handler;
 
 import it.dotsandboxes.classiEmbasp.Edge;
+import it.dotsandboxes.classiEmbasp.Player;
 
 public class GamePlay extends View {
 
@@ -48,7 +51,6 @@ public class GamePlay extends View {
     public GamePlay(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
         paint = new Paint();
-        game= new Board(5);
         redScore=0;
         blueScore=0;
         this.setOnTouchListener(new OnTouchListener() {
@@ -61,8 +63,26 @@ public class GamePlay extends View {
         playerColors = new int[]{getResources().getColor(R.color.arancione),
                 getResources().getColor(R.color.azzurro)};
 
-        this.redSolver=new ASPSolver(context);
-        manageGame();
+
+    }
+
+    public void startGame(Player[] players) {
+        game= new Board(5, players);
+      //  game.addObserver(this);
+        new Thread() {
+            @Override
+            public void run() {
+                game.start();
+            }
+        }.start();
+        postInvalidate();
+    }
+
+    public boolean isComplete() {
+        if ((redScore + blueScore) == (5* 5)) {
+            return true;
+        }
+        return false;
     }
 
 
@@ -129,66 +149,18 @@ public class GamePlay extends View {
         if ((a != -1) && (b != -1)) {
             int direction = d;
             Edge move = new Edge(b, a, direction);
-            gestisciMossa(move,direction);
+            System.out.println(move);
+            try {
+                ((HumanPlayer) game.currentPlayer()).add(move);
+            } catch (Exception e) {
+                Log.e("GameView", e.toString());
+            }
         }
 
     }
 
-    public void gestisciMossa (Edge move, int direction){
-        System.out.println("mossa inserita   ------->   ("+move.getX()+", "+move.getY()+", "+move.getHorizontal()+")");
-        try {
-            if(game.getColoreEdge(move.getX(),move.getY(),move.getHorizontal())!= game.BLANK)
-                return;
-
-            if (direction==0)
-                game.setVEdge(move.getX(),move.getY(),turn);
-            else if (direction==1)
-                game.setHEdge(move.getX(),move.getY(),turn);
-        } catch (Exception e) {
-            Log.e("GameView", e.toString());
-        }
-        game.addUltimaMossa(move);
-        manageGame();
-
-    }
 
 
-    public void manageGame() {
-
-            this.turn=game.getTurn();
-
-            if (turn==Board.RED ) {
-                Edge move = redSolver.getNextMove(game);
-                gestisciMossa(move,move.getHorizontal());
-            }
-
-    /*
-            if (turn==Board.BLUE && blueScore<game.getBlueScore()) {
-                turn = Board.BLUE;
-                blueScore = game.getBlueScore();
-            }
-            else if (turn==Board.BLUE && blueScore==game.getBlueScore()) {
-                turn = Board.RED;
-            }
-            else if (turn==Board.RED && redScore<game.getRedScore()){
-                turn = Board.RED;
-                redScore = game.getRedScore();
-                Edge move = redSolver.getNextMove(game);
-                gestisciMossa(move,move.getHorizontal());
-            }
-            else if (turn==Board.RED && redScore==game.getRedScore()) {
-                Edge move = redSolver.getNextMove(game);
-                gestisciMossa(move,move.getHorizontal());
-                turn = Board.BLUE;
-            }
-  while(!game.isComplete()) {
-                try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }*/
-    }
 
 
 
@@ -211,7 +183,7 @@ public class GamePlay extends View {
         paint.setColor(0xFF000000);
         for (int i = 0; i < game.getDim()+1; i++) {
             for (int j = 0; j < game.getDim(); j++) {
-                Edge horizontal = new Edge(i, j, 1);
+                Edge horizontal = new Edge(j, i, 1);
 
 
                 int colore = game.getColoreEdge(i,j,1);
