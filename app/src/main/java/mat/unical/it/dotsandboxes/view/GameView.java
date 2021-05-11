@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
@@ -98,7 +97,7 @@ public class GameView extends View implements Observer{
                     else
                         paint.setColor(playerColors[1]);
                 } else {
-                    paint.setColor(0xFFFFFFFF);
+                    paint.setColor(Color.TRANSPARENT);
                 }
                 canvas.drawRect(start + add5 * j + add1, start + add5 * i
                         + add2, start + add5 * (j + 1), start + add5 * i + add1
@@ -114,7 +113,7 @@ public class GameView extends View implements Observer{
                     else
                         paint.setColor(playerColors[1]);
                 } else {
-                    paint.setColor(0xFFFFFFFF);
+                    paint.setColor(Color.TRANSPARENT);
                 }
                 canvas.drawRect(start + add5 * i + add2, start + add5 * j
                         + add1, start + add5 * i + add1 - add2, start + add5
