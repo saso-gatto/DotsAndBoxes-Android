@@ -30,7 +30,7 @@
             android:id="@+id/imgGioco"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:background="@drawable/logo"
+            android:src="@drawable/logo"
             android:layout_below="@+id/textNomeGioco"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp" />
@@ -39,13 +39,14 @@
         android:id="@+id/textGiovatore1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Seleziona il primo giocatore: "
         android:layout_below="@+id/imgGioco"
-        android:layout_marginBottom="10dp"
         android:layout_marginTop="20dp"
-        android:textSize="20dp"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/coiny"
+        android:gravity="center"
+        android:text="Seleziona il primo giocatore: "
         android:textColor="@color/azzurro"
-        android:gravity="center"/>
+        android:textSize="20dp" />
 
     <RelativeLayout
         android:id="@+id/layoutRadioBtb"
@@ -64,16 +65,30 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Umano"
+                android:fontFamily="@font/coiny"
                 android:padding="15dp"
                 android:layout_margin="5dp"
+
+                android:button="@android:color/transparent"
+                android:background="@drawable/btn_selector"
+                android:textColor="@drawable/text_color"
+                android:elevation="4dp"
+
                 android:onClick="onRadioButtonClickedG1"/>
             <RadioButton
                 android:id="@+id/g1Dlv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="DLV2"
+                android:fontFamily="@font/coiny"
                 android:padding="15dp"
                 android:layout_margin="5dp"
+
+                android:button="@android:color/transparent"
+                android:background="@drawable/btn_selector"
+                android:textColor="@drawable/text_color"
+                android:elevation="4dp"
+
                 android:onClick="onRadioButtonClickedG1"/>
         </RadioGroup>
     </RelativeLayout>
@@ -89,6 +104,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginTop="30dp"
         android:textSize="20dp"
+        android:fontFamily="@font/coiny"
         android:textColor="@color/azzurro"
         android:gravity="center"/>
 
@@ -110,15 +126,29 @@
                 android:layout_height="wrap_content"
                 android:text="Umano"
                 android:padding="15dp"
+                android:fontFamily="@font/coiny"
                 android:layout_margin="5dp"
+
+                android:button="@android:color/transparent"
+                android:background="@drawable/btn_selector"
+                android:textColor="@drawable/text_color"
+                android:elevation="4dp"
+
                 android:onClick="onRadioButtonClickedG2"/>
             <RadioButton
                 android:id="@+id/g2Dlv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="DLV2"
+                android:fontFamily="@font/coiny"
                 android:padding="15dp"
                 android:layout_margin="5dp"
+
+                android:button="@android:color/transparent"
+                android:background="@drawable/btn_selector"
+                android:textColor="@drawable/text_color"
+                android:elevation="4dp"
+
                 android:onClick="onRadioButtonClickedG2"/>
 
         </RadioGroup>
