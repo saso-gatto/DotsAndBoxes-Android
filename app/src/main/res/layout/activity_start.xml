@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity_Start"
+    android:background="@drawable/sfondosfumatura">
+
+
+    <TextView
+        android:id="@+id/textNomeGioco"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/sfumatura"
+        android:fontFamily="@font/coiny"
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="5dp"
+        android:text="Dots And Boxes"
+        android:textColor="@color/white"
+        android:textSize="25sp" />
+
+
+
+        <ImageView
+            android:id="@+id/imgGioco"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/logo"
+            android:layout_below="@+id/textNomeGioco"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"/>
+
+    <TextView
+        android:id="@+id/textGiovatore1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Seleziona il primo giocatore: "
+        android:layout_below="@+id/imgGioco"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="20dp"
+        android:textSize="20dp"
+        android:textColor="@color/azzurro"
+        android:gravity="center"/>
+
+    <RelativeLayout
+        android:id="@+id/layoutRadioBtb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textGiovatore1"
+        android:gravity="center">
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/g1Umano"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Umano"
+                android:padding="15dp"
+                android:layout_margin="5dp"
+                android:onClick="onRadioButtonClickedG1"/>
+            <RadioButton
+                android:id="@+id/g1Dlv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DLV2"
+                android:padding="15dp"
+                android:layout_margin="5dp"
+                android:onClick="onRadioButtonClickedG1"/>
+        </RadioGroup>
+    </RelativeLayout>
+
+
+
+    <TextView
+        android:id="@+id/textGiovatore2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Seleziona il secondo giocatore: "
+        android:layout_below="@+id/layoutRadioBtb"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="30dp"
+        android:textSize="20dp"
+        android:textColor="@color/azzurro"
+        android:gravity="center"/>
+
+    <RelativeLayout
+        android:id="@+id/layoutRadioBtb2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textGiovatore2"
+        android:gravity="center">
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/g2Umano"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Umano"
+                android:padding="15dp"
+                android:layout_margin="5dp"
+                android:onClick="onRadioButtonClickedG2"/>
+            <RadioButton
+                android:id="@+id/g2Dlv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DLV2"
+                android:padding="15dp"
+                android:layout_margin="5dp"
+                android:onClick="onRadioButtonClickedG2"/>
+
+        </RadioGroup>
+
+
+    </RelativeLayout>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnStart"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_below="@+id/layoutRadioBtb2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/sfumatura"
+        android:fontFamily="@font/coiny"
+        android:text="Inizia"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        android:paddingHorizontal="10dp"/>
+
+
+</RelativeLayout>

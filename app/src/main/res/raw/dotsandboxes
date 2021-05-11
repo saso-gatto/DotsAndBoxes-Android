@@ -1,0 +1,54 @@
+val(0..1).
+
+pos(K):-size(K).
+pos(X):-pos(Y), X=Y-1, X>=0.
+
+%. 1-> orizzontale       0 -> verticale
+
+totEdge(K):- #count{X,Y,H:edge(X,Y,H)}=K.
+
+assegno(X,Y,H)|noassegno(X,Y,H):-noedge(X,Y,H).
+:-#count{X,Y,H:assegno(X,Y,H)}!=1.
+
+:- assegno(K,_,0),size(K), pos(K).
+:- assegno(_,K,1),size(K), pos(K).
+
+
+%Check che verificano la possibilità di mettere il 4 edge per chiudere il quadrato e fare punto
+
+checkUp(X,Y,0):-edge(X,Y,1), edge(X1,Y,0), edge(X,Y1,1), X1=X+1, Y1=Y+1, not edge(X,Y,0).
+checkDown(X,Y,0):-edge(X1,Y,1),edge(X1,Y1,1),edge(X1,Y,0), X1=X-1,Y1=Y+1, not edge(X,Y,0).
+checkLeft(X,Y,1):-edge(X,Y1,1),edge(X,Y,0),edge(X1,Y,0), X1=X+1,Y1=Y+1, not edge(X,Y,1).
+checkRight(X,Y,1):- edge(X,Y1,1), edge(X,Y1,0),edge(X1,Y1,0),Y1=Y-1,X1=X+1, not edge(X,Y,1).
+
+
+% E' preferibile che l'arco che inseriamo corrisponda a quello mancante in uno dei check
+:~not assegno(X,Y,H), checkUp(X,Y,H).   [1@6, X,Y,H]
+:~not assegno(X,Y,H), checkDown(X,Y,H). [1@6, X,Y,H]
+:~not assegno(X,Y,H), checkLeft(X,Y,H). [1@6, X,Y,H]
+:~not assegno(X,Y,H), checkRight(X,Y,H). [1@6, X,Y,H]
+
+
+% E' preferibile non inserire un arco se con questo l'avversario potrà fare punto
+:~ assegno(X,Y,0), edge(X+1,Y,0), edge(X,Y,1). [1@2,X,Y,1]
+:~ assegno(X,Y,0), edge(X,Y+1,1), edge(X,Y,1). [1@2,X,Y,1]
+:~ assegno(X,Y,0), edge(X,Y+1,1), edge(X+1,Y,0). [1@2,X,Y,1]
+:~ assegno(X,Y,0), edge(X-1,Y,1), edge(X-1,Y+1,1). [1@2,X,Y,1]
+:~ assegno(X,Y,0), edge(X-1,Y,1), edge(X-1,Y,0). [1@2,X,Y,1]
+:~ assegno(X,Y,0), edge(X-1,Y+1,1), edge(X-1,Y,0). [1@2,X,Y,1]
+
+:~ assegno(X,Y,1), edge(X,Y,0), edge(X+1,Y,0). [1@2,X,Y,1]
+:~ assegno(X,Y,1), edge(X,Y,0), edge(X,Y+1,1). [1@2,X,Y,1]
+:~ assegno(X,Y,1), edge(X+1,Y,0), edge(X,Y+1,1). [1@2,X,Y,1]
+:~ assegno(X,Y,1), edge(X,Y-1,0), edge(X+1,Y-1,0). [1@2,X,Y,1]
+:~ assegno(X,Y,1), edge(X,Y-1,0), edge(X,Y-1,1). [1@2,X,Y,1]
+:~ assegno(X,Y,1), edge(X+1,Y-1,0), edge(X,Y-1,1). [1@2,X,Y,1]
+
+
+% Garantisce un alternanza fra archi verticali e orizzontali 
+totVerticali(K):-val(V),#count{X,Y,V:edge(X,Y,V)}=N,V=0, #count{X,Y,V:assegno(X,Y,V)}=M, K=N+M.
+totOrizzontali(K):-val(V),#count{X,Y,V:edge(X,Y,V)}=N,V=1, #count{X,Y,V:assegno(X,Y,V)}=M, K=N+M.
+
+:~ totVerticali(V), totOrizzontali(O), D=V-O, V>O. [D@1]
+:~ totVerticali(V), totOrizzontali(O), D=O-V, O>V. [D@1]
+
