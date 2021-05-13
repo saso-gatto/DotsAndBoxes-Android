@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
+
 
 import java.util.Map;
 
@@ -104,7 +106,11 @@ public class MainActivity extends AppCompatActivity implements PlayersStateView 
 
 
         startGame(players);
-        ((Chronometer) findViewById(R.id.chronometer1)).start();
+
+        Chronometer chronometer = ((Chronometer) findViewById(R.id.chronometer1));
+        chronometer.setTypeface(ResourcesCompat.getFont(this, R.font.coiny));
+        chronometer.start();
+
         music = MediaPlayer.create(MainActivity.this, R.raw.music);
         music.start();
     }

@@ -1,7 +1,9 @@
 package mat.unical.it.dotsandboxes;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -9,15 +11,23 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.anubhav.android.customdialog.CustomDialog;
+
+
 public class Activity_Start extends AppCompatActivity {
 
     private int sceltag1=0;
     private int sceltag2=0;
 
+    private Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+
+        context=this;
+
         Button btnStart = (Button) findViewById(R.id.btnStart);
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,6 +44,39 @@ public class Activity_Start extends AppCompatActivity {
                 }
             }
         });
+
+
+        Button btnSetting = (Button) findViewById(R.id.btnSetting);
+        btnSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                new CustomDialog.Builder(context)
+                        .setCustomView(R.layout.setting_layout)
+                        .setBtnConfirmText("Indietro")
+                        .setBtnConfirmTextSizeDp(16)
+                        .setBtnConfirmTextColor("#95D3EC")
+                        .show();
+         /*
+
+                LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+                View customView = inflater.inflate(R.layout.setting_layout, null);
+
+                Dialog simpleDialog = DialogUtils.createSimpleDialog(context, customView, true);
+                if (simpleDialog != null && !simpleDialog.isShowing()) {
+                    simpleDialog.show();
+                }
+
+*/
+            }
+        });
+
+
+
+
+
+
+
 
 
 
