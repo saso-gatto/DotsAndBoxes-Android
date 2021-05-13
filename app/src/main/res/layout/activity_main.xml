@@ -87,6 +87,12 @@
         </LinearLayout>
     </LinearLayout>
 
+    <Chronometer
+        android:id="@+id/chronometer1"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <mat.unical.it.dotsandboxes.view.GameView
         android:id="@+id/gameView"
         android:layout_width="match_parent"
@@ -109,7 +115,9 @@
         android:text="Torna alla Home"
         android:textColor="@color/white"
         android:textSize="25sp"
-        android:paddingHorizontal="10dp"/>
+        android:drawablePadding="10dp"
+        android:drawableRight="@drawable/ic_home"
+        android:paddingHorizontal="15dp"/>
 
 
 </LinearLayout>

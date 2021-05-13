@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -99,11 +100,12 @@ public class MainActivity extends AppCompatActivity implements PlayersStateView 
 
 
         startGame(players);
+        ((Chronometer) findViewById(R.id.chronometer1)).start();
     }
+
 
     private void startGame(Player[] players) {
         gameView.startGame(players);
-
     }
 
     public void updateState() {
@@ -155,6 +157,7 @@ public class MainActivity extends AppCompatActivity implements PlayersStateView 
                         }).show();
             }
         });
+        ((Chronometer) findViewById(R.id.chronometer1)).stop();
     }
 
     @Override
