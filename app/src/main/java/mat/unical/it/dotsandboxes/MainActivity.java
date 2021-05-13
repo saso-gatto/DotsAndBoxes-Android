@@ -3,6 +3,7 @@ package mat.unical.it.dotsandboxes;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements PlayersStateView 
     Player[] players;
     Integer[] playersOccupying = new Integer[]{0, 0};
     Player currentPlayer;
+    MediaPlayer music;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +103,8 @@ public class MainActivity extends AppCompatActivity implements PlayersStateView 
 
         startGame(players);
         ((Chronometer) findViewById(R.id.chronometer1)).start();
+        music = MediaPlayer.create(MainActivity.this, R.raw.music);
+        music.start();
     }
 
 
@@ -158,6 +162,7 @@ public class MainActivity extends AppCompatActivity implements PlayersStateView 
             }
         });
         ((Chronometer) findViewById(R.id.chronometer1)).stop();
+        music.stop();
     }
 
     @Override
