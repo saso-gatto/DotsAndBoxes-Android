@@ -69,6 +69,10 @@ public class GameView extends View implements Observer{
         postInvalidate();
     }
 
+    public void stopGame(){
+        this.game.stopGame();
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);

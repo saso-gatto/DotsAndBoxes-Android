@@ -1,5 +1,7 @@
 package mat.unical.it.dotsandboxes.model;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Observable;
 
@@ -15,12 +17,13 @@ public class Graph extends Observable {
     private int[][] horizontalLines;
     private int[][] verticalLines;
     private Edge latestLine;
+    private boolean uscita;
 
     public Graph(int width, int height, Player[] players) {
         this.width = width;
         this.height = height;
         this.players = players;
-
+        this.uscita=false;
         occupied = new Player[height][width];
         horizontalLines = new int[height + 1][width];
         verticalLines = new int[height][width + 1];
@@ -57,9 +60,13 @@ public class Graph extends Observable {
         return currentPlayerIndex;
     }
 
+    public void stopGame(){
+        Log.i("THREAD","Sto per esser killato");
+        uscita=true;
+    }
 
     public void start() {
-        while (!isGameFinished()) {
+        while (!isGameFinished() && !uscita) {
             if (currentPlayer().getClass().equals(HumanPlayer.class)){
                 addMove(currentPlayer().move());
             }

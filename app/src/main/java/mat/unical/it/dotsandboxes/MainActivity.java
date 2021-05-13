@@ -90,6 +90,8 @@ public class MainActivity extends AppCompatActivity implements PlayersStateView 
                                 Intent intent = new Intent(MainActivity.this, Activity_Start.class);
                                 startActivity(intent);
                                 finish();
+                                gameView.stopGame();
+                                music.stop();
                             }
                         })
                         .setNeutralButton("Annulla", new DialogInterface.OnClickListener() {
@@ -165,72 +167,6 @@ public class MainActivity extends AppCompatActivity implements PlayersStateView 
         music.stop();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
 
-        if (id == R.id.action_new) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    new AlertDialog.Builder(MainActivity.this)
-                            .setTitle("Torna alla Home")
-                            .setPositiveButton("Si, esci", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                    Intent intent = new Intent(MainActivity.this, Activity_Start.class);
-                                    startActivity(intent);
-                                    finish();
-
-                                    /*
-                                    new AlertDialog.Builder(MainActivity.this)
-                                            .setTitle("Who goes first?")
-                                            .setPositiveButton("Computer", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialogInterface, int i) {
-                                                    players = new Player[]{new RandomAIPlayer("Computer"),
-                                                            new HumanPlayer("Human")};
-                                                    startGame(players);
-
-                                                    player1name.setText("Computer");
-                                                    player2name.setText("Human");
-                                                }
-                                            })
-                                            .setNegativeButton("Human", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialogInterface, int i) {
-                                                    players = new Player[]{new HumanPlayer("Human"),
-                                                            new RandomAIPlayer("Computer")};
-                                                    startGame(players);
-
-                                                    player1name.setText("Human");
-                                                    player2name.setText("Computer");
-                                                }
-                                            }).show();
-
-                                     */
-                                }
-                            })
-                            .setNeutralButton("Annulla", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                }
-                            }).show();
-                }
-            });
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
-
-    }
 }
