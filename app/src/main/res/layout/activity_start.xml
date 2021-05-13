@@ -8,7 +8,7 @@
     tools:context=".Activity_Start"
     android:background="@drawable/sfondosfumatura">
 
-
+<!--
     <TextView
         android:id="@+id/textNomeGioco"
         android:layout_width="wrap_content"
@@ -23,6 +23,8 @@
         android:text="Dots And Boxes"
         android:textColor="@color/white"
         android:textSize="25sp" />
+android:layout_below="@+id/textNomeGioco"
+-->
 
 
 
@@ -31,34 +33,66 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:src="@drawable/logo"
-            android:layout_below="@+id/textNomeGioco"
+            android:layout_marginTop="50dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp" />
 
-    <TextView
-        android:id="@+id/textGiovatore1"
+
+    <RelativeLayout
+        android:id="@+id/layoutTextGiocatori"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/imgGioco"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"
-        android:fontFamily="@font/coiny"
-        android:gravity="center"
-        android:text="Seleziona il primo giocatore: "
-        android:textColor="@color/azzurro"
-        android:textSize="20dp" />
+        android:layout_height="80dp"
+        android:layout_below="@+id/imgGioco">
+        <TextView
+            android:id="@+id/textGiocatore1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="50dp"
+            android:fontFamily="@font/coiny"
+            android:gravity="center"
+            android:text="Giocatore 1 "
+            android:textColor="@color/azzurro"
+            android:textSize="20dp" />
+
+
+        <TextView
+            android:id="@+id/textGiocatore2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Giocatore 2"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="50dp"
+            android:textSize="20dp"
+            android:fontFamily="@font/coiny"
+            android:textColor="@color/azzurro"
+            android:gravity="center"/>
+
+    </RelativeLayout>
+
+
 
     <RelativeLayout
         android:id="@+id/layoutRadioBtb"
-        android:layout_width="match_parent"
+        android:layout_below="@+id/layoutTextGiocatori"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textGiovatore1"
         android:gravity="center">
 
         <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginLeft="70dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true">
 
             <RadioButton
                 android:id="@+id/g1Umano"
@@ -68,12 +102,10 @@
                 android:fontFamily="@font/coiny"
                 android:padding="15dp"
                 android:layout_margin="5dp"
-
                 android:button="@android:color/transparent"
                 android:background="@drawable/btn_selector"
                 android:textColor="@drawable/text_color"
                 android:elevation="4dp"
-
                 android:onClick="onRadioButtonClickedG1"/>
             <RadioButton
                 android:id="@+id/g1Dlv"
@@ -83,42 +115,32 @@
                 android:fontFamily="@font/coiny"
                 android:padding="15dp"
                 android:layout_margin="5dp"
-
                 android:button="@android:color/transparent"
                 android:background="@drawable/btn_selector"
                 android:textColor="@drawable/text_color"
                 android:elevation="4dp"
-
                 android:onClick="onRadioButtonClickedG1"/>
         </RadioGroup>
     </RelativeLayout>
 
 
 
-    <TextView
-        android:id="@+id/textGiovatore2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Seleziona il secondo giocatore: "
-        android:layout_below="@+id/layoutRadioBtb"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="30dp"
-        android:textSize="20dp"
-        android:fontFamily="@font/coiny"
-        android:textColor="@color/azzurro"
-        android:gravity="center"/>
 
     <RelativeLayout
         android:id="@+id/layoutRadioBtb2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textGiovatore2"
-        android:gravity="center">
+        android:layout_below="@+id/layoutTextGiocatori"
+        android:gravity="center"
+        android:layout_alignParentEnd="true"
+        android:layout_centerInParent="true">
 
         <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginLeft="200dp">
 
             <RadioButton
                 android:id="@+id/g2Umano"
@@ -128,7 +150,6 @@
                 android:padding="15dp"
                 android:fontFamily="@font/coiny"
                 android:layout_margin="5dp"
-
                 android:button="@android:color/transparent"
                 android:background="@drawable/btn_selector"
                 android:textColor="@drawable/text_color"
@@ -157,11 +178,29 @@
     </RelativeLayout>
 
 
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnSetting"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_below="@+id/layoutRadioBtb2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/sfumatura"
+        android:fontFamily="@font/coiny"
+        android:text="Impostazioni"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        android:paddingHorizontal="20dp"
+        android:drawableRight="@drawable/ic_setting"
+        android:drawablePadding="20dp"/>
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnStart"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:layout_below="@+id/layoutRadioBtb2"
+        android:layout_below="@+id/btnSetting"
         android:layout_centerHorizontal="true"
         android:layout_marginHorizontal="30dp"
         android:layout_marginTop="30dp"
@@ -170,7 +209,9 @@
         android:text="Inizia"
         android:textColor="@color/white"
         android:textSize="25sp"
-        android:paddingHorizontal="10dp"/>
+        android:paddingHorizontal="20dp"
+        android:drawableRight="@drawable/ic_play"
+        android:drawablePadding="20dp"/>
 
 
 </RelativeLayout>
