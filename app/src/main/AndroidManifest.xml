@@ -18,7 +18,8 @@
             android:name=".Activity_Setting"></activity>
         <activity
             android:name=".Activity_Info"></activity>
-
+        <activity
+            android:name=".Activity_End"></activity>
 
         <activity android:name=".Activity_Start">
             <intent-filter>
