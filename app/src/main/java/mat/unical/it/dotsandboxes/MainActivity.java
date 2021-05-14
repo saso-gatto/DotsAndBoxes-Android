@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -109,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements PlayersStateView 
 
         Chronometer chronometer = ((Chronometer) findViewById(R.id.chronometer1));
         chronometer.setTypeface(ResourcesCompat.getFont(this, R.font.coiny));
+        chronometer.setBase(SystemClock.elapsedRealtime());
         chronometer.start();
 
         if (Activity_Setting.getChecked()) {
@@ -157,10 +159,24 @@ public class MainActivity extends AppCompatActivity implements PlayersStateView 
 
     @Override
     public void setWinner(final Player winner) {
+
+        Chronometer c = findViewById(R.id.chronometer1);
+        c.stop();
+        int elapsed = (int) (SystemClock.elapsedRealtime()-c.getBase());
+        System.out.println(elapsed);
+
+        music.stop();
+
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-             Intent intent = new Intent(MainActivity.this, Activity_End.class);
+
+                Intent intent = new Intent(MainActivity.this, Activity_End.class);
+
+                intent.putExtra("vincitore",winner.getName());
+                intent.putExtra("tempo",elapsed/1000);
+                intent.putExtra("punteggio1",playersOccupying[0]);
+                intent.putExtra("punteggio2",playersOccupying[1]);
                 startActivity(intent);
                 finish();
 
@@ -180,8 +196,7 @@ public class MainActivity extends AppCompatActivity implements PlayersStateView 
                         }).show();
           */  }
         });
-        ((Chronometer) findViewById(R.id.chronometer1)).stop();
-        music.stop();
+
     }
 
 
