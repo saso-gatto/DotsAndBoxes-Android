@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@mipmap/vincitoreblu"
+    tools:context=".Activity_End"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:layout_centerHorizontal="true">
+
+
+    <RelativeLayout
+        android:id="@+id/layoutVincitore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="60dp"
+        android:paddingHorizontal="10dp"
+        android:background="@drawable/sfumaturawinner">
+
+
+        <TextView
+            android:id="@+id/ilVinciotoretext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="33sp"
+            android:text="Il vincitore è :"
+            android:gravity="center"
+            android:fontFamily="@font/coiny"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/white"
+            android:layout_marginTop="5dp"/>
+
+        <TextView
+            android:id="@+id/nomeVincitore_endActivity"
+            android:layout_below="@id/ilVinciotoretext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:fontFamily="@font/coiny"
+            android:layout_centerHorizontal="true"
+            android:layout_marginHorizontal="50dp"
+            android:text="Giocatore 1"/>
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:paddingHorizontal="10dp"
+        android:background="@drawable/sfumaturawinner"
+        android:layout_below="@id/layoutVincitore">
+
+
+        <TextView
+            android:id="@+id/timetext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="Tempo :"
+            android:gravity="center"
+            android:fontFamily="@font/coiny"
+            android:textColor="@color/white"/>
+
+        <TextView
+            android:id="@+id/time_endActivity"
+            android:layout_toRightOf="@id/timetext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="10:20"
+            android:gravity="center"
+            android:layout_marginLeft="20dp"
+            android:fontFamily="@font/coiny"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:layout_toRightOf="@id/time_endActivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="secondi"
+            android:gravity="center"
+            android:layout_marginLeft="10dp"
+            android:fontFamily="@font/coiny"
+            android:textColor="@color/white" />
+
+
+
+    </RelativeLayout>
+
+
+
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="660dp">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnHome_activityEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/sfumatura"
+            android:fontFamily="@font/coiny"
+            android:text="Home"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:paddingHorizontal="12dp"
+            android:drawableRight="@drawable/ic_home"
+            android:drawablePadding="12dp"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnRicomincia_activityEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/sfumatura"
+            android:fontFamily="@font/coiny"
+            android:text="Ricomincia"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:paddingHorizontal="12dp"
+            android:drawableRight="@drawable/ic_reload"
+            android:drawablePadding="12dp"/>
+
+
+
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

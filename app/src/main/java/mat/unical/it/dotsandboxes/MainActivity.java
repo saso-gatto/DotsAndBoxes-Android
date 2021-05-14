@@ -160,6 +160,11 @@ public class MainActivity extends AppCompatActivity implements PlayersStateView 
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+             Intent intent = new Intent(MainActivity.this, Activity_End.class);
+                startActivity(intent);
+                finish();
+
+  /*
                 new AlertDialog.Builder(MainActivity.this)
                         .setTitle("Dots And Boxes")
                         .setMessage(winner.getName() + " ha vinto!")
@@ -173,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements PlayersStateView 
                             public void onClick(DialogInterface dialogInterface, int i) {
                             }
                         }).show();
-            }
+          */  }
         });
         ((Chronometer) findViewById(R.id.chronometer1)).stop();
         music.stop();
