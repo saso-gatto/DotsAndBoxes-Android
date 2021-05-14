@@ -7,8 +7,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
@@ -22,7 +21,6 @@ import androidx.core.content.res.ResourcesCompat;
 import java.util.Map;
 
 import mat.unical.it.dotsandboxes.ai.PlayerASP;
-import mat.unical.it.dotsandboxes.ai.RandomAIPlayer;
 import mat.unical.it.dotsandboxes.model.HumanPlayer;
 import mat.unical.it.dotsandboxes.model.Player;
 import mat.unical.it.dotsandboxes.view.GameView;
@@ -39,11 +37,9 @@ public class MainActivity extends AppCompatActivity implements PlayersStateView 
     Player currentPlayer;
     MediaPlayer music;
 
-    private Boolean timerAttivo;
-    private Long tempoPausa;
 
     private Chronometer c;
-    private Button btnMusica, btnPausa;
+    private ImageView btnMusica;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements PlayersStateView 
         setContentView(R.layout.activity_main);
         gameView = (GameView) findViewById(R.id.gameView);
         gameView.setPlayersState(this);
-        timerAttivo=true;
+
         player1name = (TextView) findViewById(R.id.player1name);
         player2name = (TextView) findViewById(R.id.player2name);
         player1occupying = (TextView) findViewById(R.id.player1occupying);
@@ -112,16 +108,19 @@ public class MainActivity extends AppCompatActivity implements PlayersStateView 
             }
         });
 
-        btnMusica = (Button) findViewById(R.id.btnMusicaPlayStop);
+        btnMusica = (ImageView) findViewById(R.id.btnMusicaPlayStop);
         btnMusica.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(music.isPlaying())
+                if(music.isPlaying()) {
                     music.pause();
-                else
+                    btnMusica.setImageResource(R.drawable.mute);
+                }
+                else{
                     music.start();
-
+                    btnMusica.setImageResource(R.drawable.unmute);
+                }
             }
         });
 
@@ -139,6 +138,7 @@ public class MainActivity extends AppCompatActivity implements PlayersStateView 
         }
 
         c.setTypeface(ResourcesCompat.getFont(this, R.font.coiny));
+        c.setTextSize(18);
         c.setBase(SystemClock.elapsedRealtime());
         c.start();
 

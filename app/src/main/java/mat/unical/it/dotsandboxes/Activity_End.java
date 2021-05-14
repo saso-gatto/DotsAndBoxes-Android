@@ -31,7 +31,7 @@ import java.util.Date;
 public class Activity_End extends AppCompatActivity {
 
     private Button home, condividi;
-    private TextView nomeVincitore, tempo;
+    private TextView nomeVincitore, tempo, punteggioG1, punteggioG2;
 
     private String vincitore;
     private int tempoCronometro, punteggio1, punteggio2;
@@ -111,6 +111,13 @@ public class Activity_End extends AppCompatActivity {
 
         tempo = (TextView) findViewById(R.id.time_endActivity);
         tempo.setText(String.valueOf(tempoCronometro));
+
+
+        punteggioG1 = findViewById(R.id.punteggioG1);
+        punteggioG1.setText(String.valueOf(punteggio1));
+
+        punteggioG2 = findViewById(R.id.punteggioG2);
+        punteggioG2.setText(String.valueOf(punteggio2));
     }
 
     private void takeScreenShot(View view) {
@@ -159,12 +166,12 @@ public class Activity_End extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
         intent.setType("image/*");
-        intent.putExtra(android.content.Intent.EXTRA_TEXT, "This is Sample App to take ScreenShot");
+        intent.putExtra(android.content.Intent.EXTRA_TEXT, "Gioca anche tu a Dots&Boxes!");
         intent.putExtra(Intent.EXTRA_STREAM, uri);
 
         //It will show the application which are available to share Image; else Toast message will throw.
         try {
-            this.startActivity(Intent.createChooser(intent, "Share With"));
+            this.startActivity(Intent.createChooser(intent, "Condividi con "));
         } catch (ActivityNotFoundException e) {
             Toast.makeText(this, "No App Available", Toast.LENGTH_SHORT).show();
         }

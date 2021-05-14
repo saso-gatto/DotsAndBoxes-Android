@@ -20,7 +20,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="60dp"
         android:paddingHorizontal="10dp"
-        android:background="@drawable/sfumaturawinner">
+        android:background="@drawable/sfumaturaoro">
 
 
         <TextView
@@ -52,37 +52,60 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/layoutPunteggio"
+        android:layout_below="@+id/layoutVincitore"
+        android:layout_width="160dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="12dp"
         android:layout_centerHorizontal="true"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:paddingHorizontal="10dp"
-        android:background="@drawable/sfumaturawinner"
-        android:layout_below="@id/layoutVincitore">
-
+        android:background="@drawable/sfondopunteggio"
+        android:paddingHorizontal="10dp">
 
         <TextView
-            android:id="@+id/timetext"
+            android:id="@+id/punteggioG1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:text="Tempo :"
-            android:gravity="center"
+            android:text="10"
+            android:layout_marginLeft="40dp"
             android:fontFamily="@font/coiny"
-            android:textColor="@color/white"/>
+            android:textSize="20dp"/>
+        <TextView
+            android:id="@+id/spazio"
+            android:layout_toRightOf="@id/punteggioG1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" : "
+            android:textSize="20dp"
+            android:fontFamily="@font/coiny"/>
+        <TextView
+            android:id="@+id/punteggioG2"
+            android:layout_toRightOf="@+id/spazio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10"
+            android:textSize="20dp"
+            android:fontFamily="@font/coiny"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layoutTime"
+        android:layout_width="132dp"
+        android:layout_height="40dp"
+        android:layout_centerHorizontal="true"
+        android:paddingHorizontal="10dp"
+        android:background="@drawable/sfondopunteggiotime"
+        android:layout_below="@id/layoutPunteggio">
+
 
         <TextView
             android:id="@+id/time_endActivity"
-            android:layout_toRightOf="@id/timetext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:text="10:20"
-            android:gravity="center"
-            android:layout_marginLeft="20dp"
-            android:fontFamily="@font/coiny"
-            android:textColor="@color/white" />
+            android:text="10"
+            android:layout_marginLeft="5dp"
+            android:fontFamily="@font/coiny" />
 
         <TextView
             android:layout_toRightOf="@id/time_endActivity"
@@ -92,12 +115,11 @@
             android:text="secondi"
             android:gravity="center"
             android:layout_marginLeft="10dp"
-            android:fontFamily="@font/coiny"
-            android:textColor="@color/white" />
-
+            android:fontFamily="@font/coiny"/>
 
 
     </RelativeLayout>
+
 
 
 

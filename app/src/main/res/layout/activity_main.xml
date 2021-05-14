@@ -90,7 +90,7 @@
     <Chronometer
         android:id="@+id/chronometer1"
         android:layout_width="wrap_content"
-        android:layout_height="24dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:drawableRight="@drawable/ic_timer"
         android:drawablePadding="10dp"
@@ -106,8 +106,10 @@
         android:layout_weight="1" />
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/backHome"
@@ -121,25 +123,24 @@
             android:background="@drawable/sfumatura"
             android:fontFamily="@font/coiny"
             android:text="Home"
-            android:textColor="@color/white"
+            android:textColor="#282A2E"
             android:textSize="22sp"
             android:drawablePadding="10dp"
-            android:drawableRight="@drawable/ic_home"
+            android:drawableRight="@drawable/ic_home_dark"
             android:paddingHorizontal="15dp"/>
 
-        <androidx.appcompat.widget.AppCompatButton
+        <ImageView
             android:id="@+id/btnMusicaPlayStop"
             android:layout_toRightOf="@id/backHome"
             android:layout_marginTop="30dp"
             android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
             android:text=""
-            android:background="@drawable/sfumatura"
+            android:src="@drawable/unmute"
             android:fontFamily="@font/coiny"
             android:textColor="@color/white"
-            android:textSize="22sp"
-            android:drawableRight="@drawable/ic_volume"/>
+            android:textSize="22sp" />
 
     </RelativeLayout>
 

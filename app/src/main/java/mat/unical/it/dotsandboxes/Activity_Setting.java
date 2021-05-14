@@ -1,7 +1,5 @@
 package mat.unical.it.dotsandboxes;
 
-import android.app.Activity;
-import android.app.assist.AssistStructure;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
