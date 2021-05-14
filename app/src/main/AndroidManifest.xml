@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="mat.unical.it.dotsandboxes">
 
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,6 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.dotsandboxes"
         tools:replace="android:theme">
+        <uses-library
+            android:name="com.google.android.wearable"
+            android:required="true" />
+
+
+
+        <activity
+            android:name=".Activity_Setting"></activity>
+
         <activity android:name=".Activity_Start">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,15 +28,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".MainActivity">
-        </activity>
+        <activity android:name=".MainActivity"></activity>
 
         <service
             android:name="it.unical.mat.embasp.specializations.dlv2.android.DLV2AndroidReasoner"
             android:enabled="true"
             android:exported="false"
-            android:process=":remote"></service>
+            android:process=":remote" />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

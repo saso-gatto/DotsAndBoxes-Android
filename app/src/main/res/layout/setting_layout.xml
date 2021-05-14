@@ -1,34 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/sfondosfumatura"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:layout_centerVertical="true"
-    android:background="@drawable/sfondosfumatura">
+    android:gravity="center"
+    android:layout_centerHorizontal="true">
 
-    <Switch
-        android:id="@+id/btnMusica"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="100dp"
-        android:background="@drawable/sfumatura"
-        android:fontFamily="@font/coiny"
-        android:text="Musica   "
-        android:textColor="@color/white"
-        android:textSize="25sp"
-        android:paddingHorizontal="20dp" />
+
+        <Switch
+            android:id="@+id/btnMusica"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:background="@drawable/sfumatura"
+            android:fontFamily="@font/coiny"
+            android:text="Musica   "
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:paddingHorizontal="20dp" />
 
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnInfo"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginHorizontal="30dp"
-        android:layout_below="@id/btnMusica"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="60dp"
         android:background="@drawable/sfumatura"
         android:fontFamily="@font/coiny"
         android:text="Info"
@@ -42,10 +39,8 @@
         android:id="@+id/btnExit"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:layout_centerHorizontal="true"
         android:layout_marginHorizontal="30dp"
-        android:layout_below="@id/btnInfo"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="60dp"
         android:background="@drawable/sfumatura"
         android:fontFamily="@font/coiny"
         android:text="Esci"
@@ -55,7 +50,7 @@
         android:drawableRight="@drawable/ic_exit"
         android:drawablePadding="20dp"/>
 
+</LinearLayout>
 
 
-</RelativeLayout>
 

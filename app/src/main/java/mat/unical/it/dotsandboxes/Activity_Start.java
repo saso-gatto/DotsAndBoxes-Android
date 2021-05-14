@@ -51,13 +51,18 @@ public class Activity_Start extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                new CustomDialog.Builder(context)
+                Intent intent = new Intent(Activity_Start.this, Activity_Setting.class);
+                startActivity(intent);
+                finish();
+
+
+            /*     new CustomDialog.Builder(context)
                         .setCustomView(R.layout.setting_layout)
                         .setBtnConfirmText("Indietro")
                         .setBtnConfirmTextSizeDp(16)
                         .setBtnConfirmTextColor("#95D3EC")
                         .show();
-         /*
+
 
                 LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
                 View customView = inflater.inflate(R.layout.setting_layout, null);

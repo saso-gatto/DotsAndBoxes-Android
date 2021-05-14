@@ -37,10 +37,12 @@ dependencies {
     implementation 'org.antlr:antlr4:4.9.2'
     implementation 'androidx.navigation:navigation-fragment:2.3.5'
     implementation 'androidx.navigation:navigation-ui:2.3.5'
+    implementation 'androidx.wear:wear:1.1.0'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     implementation 'com.github.gupta1anubhav:Custom-Dialog-Box:v1.0'
-   // compile 'com.github.viethoa:customdialogs:3.0.0'
+    compileOnly 'com.google.android.wearable:wearable:2.6.0'
+    // compile 'com.github.viethoa:customdialogs:3.0.0'
 }

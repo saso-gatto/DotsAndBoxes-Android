@@ -89,14 +89,14 @@
 
     <Chronometer
         android:id="@+id/chronometer1"
-        android:layout_gravity="center"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/azzurro"
+        android:layout_height="24dp"
+        android:layout_gravity="center"
+        android:drawableRight="@drawable/ic_timer"
+        android:drawablePadding="10dp"
         android:fontFamily="@font/carter_one"
-        android:textSize="18dp"
-        android:drawableLeft="@drawable/ic_timer"
-        android:drawablePadding="10dp"/>
+        android:textColor="@color/azzurro"
+        android:textSize="18dp" />
 
     <mat.unical.it.dotsandboxes.view.GameView
         android:id="@+id/gameView"
