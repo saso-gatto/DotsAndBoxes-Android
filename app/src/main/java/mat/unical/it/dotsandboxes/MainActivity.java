@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,7 +42,6 @@ public class MainActivity extends AppCompatActivity implements PlayersStateView 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         gameView = (GameView) findViewById(R.id.gameView);
         gameView.setPlayersState(this);
 
@@ -111,8 +111,14 @@ public class MainActivity extends AppCompatActivity implements PlayersStateView 
         chronometer.setTypeface(ResourcesCompat.getFont(this, R.font.coiny));
         chronometer.start();
 
-        music = MediaPlayer.create(MainActivity.this, R.raw.music);
-        music.start();
+        if (Activity_Setting.getChecked()) {
+            Log.i("Toggle Musica","Avvio della musica");
+            music = MediaPlayer.create(MainActivity.this, R.raw.music);
+            music.start();
+        }
+        else {
+            Log.i("Toggle OFF","Toggle spento");
+        }
     }
 
 

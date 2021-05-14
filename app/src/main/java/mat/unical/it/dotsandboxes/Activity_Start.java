@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.anubhav.android.customdialog.CustomDialog;
 
 
 public class Activity_Start extends AppCompatActivity {
@@ -53,7 +52,7 @@ public class Activity_Start extends AppCompatActivity {
 
                 Intent intent = new Intent(Activity_Start.this, Activity_Setting.class);
                 startActivity(intent);
-                finish();
+              //  finish();
 
 
             /*     new CustomDialog.Builder(context)
