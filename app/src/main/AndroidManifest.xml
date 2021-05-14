@@ -18,12 +18,12 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.trendoceans.fileshare.MainActivity.provider"
+            android:authorities="mat.unical.it.dotsandboxes.Activity_End.provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_path" />
+                android:resource="@xml/provider_paths" />
         </provider>
 
         <activity
