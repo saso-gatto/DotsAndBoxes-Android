@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="mat.unical.it.dotsandboxes">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -11,8 +13,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.dotsandboxes"
-        tools:replace="android:theme">
+        tools:replace="android:theme"
+        android:requestLegacyExternalStorage="true">
 
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.trendoceans.fileshare.MainActivity.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_path" />
+        </provider>
 
         <activity
             android:name=".Activity_Setting"></activity>

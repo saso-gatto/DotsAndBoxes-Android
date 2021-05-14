@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements PlayersStateView 
             Log.i("Toggle Musica","Avvio della musica");
             music = MediaPlayer.create(MainActivity.this, R.raw.music);
             music.start();
+            music.setLooping(true);
         }
         else {
             Log.i("Toggle OFF","Toggle spento");
