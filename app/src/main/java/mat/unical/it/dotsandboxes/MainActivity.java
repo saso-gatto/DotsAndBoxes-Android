@@ -39,19 +39,26 @@ public class MainActivity extends AppCompatActivity implements PlayersStateView 
     Player currentPlayer;
     MediaPlayer music;
 
+    private Boolean timerAttivo;
+    private Long tempoPausa;
+
+    private Chronometer c;
+    private Button btnMusica, btnPausa;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         gameView = (GameView) findViewById(R.id.gameView);
         gameView.setPlayersState(this);
-
+        timerAttivo=true;
         player1name = (TextView) findViewById(R.id.player1name);
         player2name = (TextView) findViewById(R.id.player2name);
         player1occupying = (TextView) findViewById(R.id.player1occupying);
         player2occupying = (TextView) findViewById(R.id.player2occupying);
         currentPlayerPointer = (ImageView) findViewById(R.id.playerNowPointer);
 
+        c = findViewById(R.id.chronometer1);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -105,13 +112,21 @@ public class MainActivity extends AppCompatActivity implements PlayersStateView 
             }
         });
 
+        btnMusica = (Button) findViewById(R.id.btnMusicaPlayStop);
+        btnMusica.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        startGame(players);
+                if(music.isPlaying())
+                    music.pause();
+                else
+                    music.start();
 
-        Chronometer chronometer = ((Chronometer) findViewById(R.id.chronometer1));
-        chronometer.setTypeface(ResourcesCompat.getFont(this, R.font.coiny));
-        chronometer.setBase(SystemClock.elapsedRealtime());
-        chronometer.start();
+            }
+        });
+
+
+
 
         if (Activity_Setting.getChecked()) {
             Log.i("Toggle Musica","Avvio della musica");
@@ -122,6 +137,12 @@ public class MainActivity extends AppCompatActivity implements PlayersStateView 
         else {
             Log.i("Toggle OFF","Toggle spento");
         }
+
+        c.setTypeface(ResourcesCompat.getFont(this, R.font.coiny));
+        c.setBase(SystemClock.elapsedRealtime());
+        c.start();
+
+        startGame(players);
     }
 
 
@@ -161,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements PlayersStateView 
     @Override
     public void setWinner(final Player winner) {
 
-        Chronometer c = findViewById(R.id.chronometer1);
+        c = findViewById(R.id.chronometer1);
         c.stop();
         int elapsed = (int) (SystemClock.elapsedRealtime()-c.getBase());
         System.out.println(elapsed);

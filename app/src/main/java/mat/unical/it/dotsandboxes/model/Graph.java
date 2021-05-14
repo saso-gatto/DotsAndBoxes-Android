@@ -61,8 +61,13 @@ public class Graph extends Observable {
     }
 
     public void stopGame(){
-        Log.i("THREAD","Sto per esser killato");
         uscita=true;
+    }
+
+    public void resumeGame(){
+        uscita=false;
+        start();
+
     }
 
     public void start() {
