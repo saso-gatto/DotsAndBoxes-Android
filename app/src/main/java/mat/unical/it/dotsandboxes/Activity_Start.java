@@ -45,40 +45,25 @@ public class Activity_Start extends AppCompatActivity {
         });
 
 
-        Button btnSetting = (Button) findViewById(R.id.btnSetting);
-        btnSetting.setOnClickListener(new View.OnClickListener() {
+        Button regole = findViewById(R.id.btnRegole);
+        regole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent intent = new Intent(Activity_Start.this, Activity_Setting.class);
+                Intent intent = new Intent(Activity_Start.this, Activity_Regole.class);
                 startActivity(intent);
-              //  finish();
 
-
-            /*     new CustomDialog.Builder(context)
-                        .setCustomView(R.layout.setting_layout)
-                        .setBtnConfirmText("Indietro")
-                        .setBtnConfirmTextSizeDp(16)
-                        .setBtnConfirmTextColor("#95D3EC")
-                        .show();
-
-
-                LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-                View customView = inflater.inflate(R.layout.setting_layout, null);
-
-                Dialog simpleDialog = DialogUtils.createSimpleDialog(context, customView, true);
-                if (simpleDialog != null && !simpleDialog.isShowing()) {
-                    simpleDialog.show();
-                }
-
-*/
             }
         });
 
+        Button chiSiamo = findViewById(R.id.btnChiSiamo);
+        chiSiamo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Activity_Start.this, Activity_ChiSiamo.class);
+                startActivity(intent);
 
-
-
-
+            }
+        });
 
 
 

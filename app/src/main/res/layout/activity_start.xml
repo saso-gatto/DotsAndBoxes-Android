@@ -8,24 +8,6 @@
     tools:context=".Activity_Start"
     android:background="@drawable/sfondosfumatura">
 
-<!--
-    <TextView
-        android:id="@+id/textNomeGioco"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/sfumatura"
-        android:fontFamily="@font/coiny"
-        android:paddingHorizontal="15dp"
-        android:paddingVertical="5dp"
-        android:text="Dots And Boxes"
-        android:textColor="@color/white"
-        android:textSize="25sp" />
-android:layout_below="@+id/textNomeGioco"
--->
-
 
 
         <ImageView
@@ -33,7 +15,7 @@ android:layout_below="@+id/textNomeGioco"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:src="@drawable/logo"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="45dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp" />
 
@@ -41,7 +23,7 @@ android:layout_below="@+id/textNomeGioco"
     <RelativeLayout
         android:id="@+id/layoutTextGiocatori"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
         android:layout_below="@+id/imgGioco">
         <TextView
             android:id="@+id/textGiocatore1"
@@ -127,7 +109,7 @@ android:layout_below="@+id/textNomeGioco"
 
 
     <RelativeLayout
-        android:id="@+id/layoutRadioBtb2"
+        android:id="@+id/layoutRadioBtn2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/layoutTextGiocatori"
@@ -179,36 +161,53 @@ android:layout_below="@+id/textNomeGioco"
 
 
 
+
+
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnSetting"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_below="@+id/layoutRadioBtb2"
+        android:id="@+id/btnRegole"
+        android:layout_below="@+id/layoutRadioBtn2"
         android:layout_centerHorizontal="true"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:background="@drawable/sfumatura"
         android:fontFamily="@font/coiny"
-        android:text="Impostazioni"
+        android:text="Regole"
         android:textColor="@color/white"
-        android:textSize="25sp"
+        android:textSize="20sp"
         android:paddingHorizontal="20dp"
-        android:drawableRight="@drawable/ic_setting"
+        android:drawableRight="@drawable/ic_dado"
+        android:drawablePadding="20dp"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnChiSiamo"
+        android:layout_below="@+id/btnRegole"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/sfumatura"
+        android:fontFamily="@font/coiny"
+        android:text="Chi siamo"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:paddingHorizontal="20dp"
+        android:drawableRight="@drawable/ic_info"
         android:drawablePadding="20dp"/>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnStart"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_below="@+id/btnSetting"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnChiSiamo"
         android:layout_centerHorizontal="true"
         android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/sfumatura"
         android:fontFamily="@font/coiny"
         android:text="Inizia"
         android:textColor="@color/white"
-        android:textSize="25sp"
+        android:textSize="20sp"
         android:paddingHorizontal="20dp"
         android:drawableRight="@drawable/ic_play"
         android:drawablePadding="20dp"/>

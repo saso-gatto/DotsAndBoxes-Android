@@ -14,5 +14,23 @@
     This string is used for square devices and overridden by hello_world in
     values-round/strings.xml for round devices.
     -->
-    <string name="hello_world">Hello Square World!</string>
+
+    <string name="Istruzioni">
+        Partendo da una griglia vuota di dimensione 5x5, i giocatori possono, a turno, inserire una linea orizzontale o verticale tra due punti non ancora collegati.
+
+        \n Quando uno dei due giocatori traccia il quarto lato del quadrato , quest ultimo verrrà colorato del proprio colore conquistando un punto e la possibilità di fare una nuova mossa.
+
+        \n La partita termina quando non è più possibile disegnare le linee all interno della griglia. Vince il giocatore che ha ottenuto più punti.</string>
+
+
+    <string name="Dlv2"> DLV2 è un sistema di AnswerSet Programming basato su una programmazione logica disgiuntiva
+        offerto dal dipartimento DEMACS dell\'Università della Calabria.</string>
+
+    <string name="ChiSiamo">
+        L\'applicazione è stata sviluppata da:
+        \n Gatto Salvatore 200856
+        \n Davide Ragona 200864
+
+    </string>
+
 </resources>

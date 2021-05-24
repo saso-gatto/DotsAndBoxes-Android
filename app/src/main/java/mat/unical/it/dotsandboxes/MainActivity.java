@@ -126,16 +126,12 @@ public class MainActivity extends AppCompatActivity implements PlayersStateView 
 
 
 
-
-        if (Activity_Setting.getChecked()) {
             Log.i("Toggle Musica","Avvio della musica");
             music = MediaPlayer.create(MainActivity.this, R.raw.music);
             music.start();
             music.setLooping(true);
-        }
-        else {
-            Log.i("Toggle OFF","Toggle spento");
-        }
+
+
 
         c.setTypeface(ResourcesCompat.getFont(this, R.font.coiny));
         c.setTextSize(18);
@@ -201,22 +197,7 @@ public class MainActivity extends AppCompatActivity implements PlayersStateView 
                 intent.putExtra("punteggio2",playersOccupying[1]);
                 startActivity(intent);
                 finish();
-
-  /*
-                new AlertDialog.Builder(MainActivity.this)
-                        .setTitle("Dots And Boxes")
-                        .setMessage(winner.getName() + " ha vinto!")
-                        .setPositiveButton("Restart", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                recreate();
-                            }
-                        })
-                        .setNeutralButton("Esci", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                            }
-                        }).show();
-          */  }
+            }
         });
 
     }

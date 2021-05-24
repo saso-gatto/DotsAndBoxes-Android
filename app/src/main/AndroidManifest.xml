@@ -27,9 +27,9 @@
         </provider>
 
         <activity
-            android:name=".Activity_Setting"></activity>
+            android:name=".Activity_Regole"></activity>
         <activity
-            android:name=".Activity_Info"></activity>
+            android:name=".Activity_ChiSiamo"></activity>
         <activity
             android:name=".Activity_End"></activity>
 
